@@ -1,0 +1,158 @@
+﻿<UserControl
+    x:Class="BitSynthPlus.Controls.PresetsGrid"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BitSynthPlus.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="300"
+    d:DesignWidth="400">
+
+    <Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WidthStates">
+
+                <VisualState x:Name="MediumWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{ThemeResource MediumWidthBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="presetToggleOne.Style" Value="{ThemeResource PresetToggleMedium}" />
+                        <Setter Target="presetToggleTwo.Style" Value="{ThemeResource PresetToggleMedium}" />
+                        <Setter Target="presetToggleThree.Style" Value="{ThemeResource PresetToggleMedium}" />
+                        <Setter Target="presetToggleFour.Style" Value="{ThemeResource PresetToggleMedium}" />
+                        <Setter Target="presetToggleFive.Style" Value="{ThemeResource PresetToggleMedium}" />
+                        <Setter Target="presetToggleSix.Style" Value="{ThemeResource PresetToggleMedium}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="SmallWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{ThemeResource SmallWidthBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="presetToggleOne.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleTwo.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleThree.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleFour.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleFive.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleSix.Style" Value="{ThemeResource PresetToggleSmall}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="ExtraSmallWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="presetToggleOne.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleTwo.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleThree.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleFour.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleFive.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleSix.Style" Value="{ThemeResource PresetToggleSmall}" />
+                        <Setter Target="presetToggleThree.(Grid.Column)" Value="0" />
+                        <Setter Target="presetToggleThree.(Grid.Row)" Value="1" />
+                        <Setter Target="presetToggleFour.(Grid.Column)" Value="1" />
+                        <Setter Target="presetToggleFive.(Grid.Column)" Value="0" />
+                        <Setter Target="presetToggleFive.(Grid.Row)" Value="2" />
+                        <Setter Target="presetToggleSix.(Grid.Column)" Value="1" />
+                        <Setter Target="presetToggleSix.(Grid.Row)" Value="2" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="HeightStates">
+
+                <VisualState x:Name="SmallHeight">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="presetToggleOne.Height" Value="{ThemeResource PresetToggleSmallHeight}" />
+                        <Setter Target="presetToggleTwo.Height" Value="{ThemeResource PresetToggleSmallHeight}" />
+                        <Setter Target="presetToggleThree.Height" Value="{ThemeResource PresetToggleSmallHeight}" />
+                        <Setter Target="presetToggleFour.Height" Value="{ThemeResource PresetToggleSmallHeight}" />
+                        <Setter Target="presetToggleFive.Height" Value="{ThemeResource PresetToggleSmallHeight}" />
+                        <Setter Target="presetToggleSix.Height" Value="{ThemeResource PresetToggleSmallHeight}" />
+                        <Setter Target="presetToggleOne.Padding" Value="{ThemeResource PresetToggleSmallHeightPadding}" />
+                        <Setter Target="presetToggleTwo.Padding" Value="{ThemeResource PresetToggleSmallHeightPadding}" />
+                        <Setter Target="presetToggleThree.Padding" Value="{ThemeResource PresetToggleSmallHeightPadding}" />
+                        <Setter Target="presetToggleFour.Padding" Value="{ThemeResource PresetToggleSmallHeightPadding}" />
+                        <Setter Target="presetToggleFive.Padding" Value="{ThemeResource PresetToggleSmallHeightPadding}" />
+                        <Setter Target="presetToggleSix.Padding" Value="{ThemeResource PresetToggleSmallHeightPadding}" />
+                        <Setter Target="presetToggleOne.Margin" Value="{ThemeResource PresetToggleSmallHeightMargin}" />
+                        <Setter Target="presetToggleTwo.Margin" Value="{ThemeResource PresetToggleSmallHeightMargin}" />
+                        <Setter Target="presetToggleThree.Margin" Value="{ThemeResource PresetToggleSmallHeightMargin}" />
+                        <Setter Target="presetToggleFour.Margin" Value="{ThemeResource PresetToggleSmallHeightMargin}" />
+                        <Setter Target="presetToggleFive.Margin" Value="{ThemeResource PresetToggleSmallHeightMargin}" />
+                        <Setter Target="presetToggleSix.Margin" Value="{ThemeResource PresetToggleSmallHeightMargin}" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="LargeHeight">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="600" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+            </VisualStateGroup>
+
+        </VisualStateManager.VisualStateGroups>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <ToggleButton x:Name="presetToggleOne" 
+                              Style="{ThemeResource PresetToggleLarge}"
+                              Checked="PresetToggle_Checked">
+            <BitmapIcon UriSource="/Assets/PixArt/number1.png" />
+        </ToggleButton>
+
+        <ToggleButton x:Name="presetToggleTwo" 
+                      Grid.Column="1" 
+                      Style="{ThemeResource PresetToggleLarge}" 
+                      Checked="PresetToggle_Checked">
+            <BitmapIcon UriSource="/Assets/PixArt/number2.png" />
+        </ToggleButton>
+
+        <ToggleButton x:Name="presetToggleThree" 
+                      Grid.Column="2" 
+                      Style="{ThemeResource PresetToggleLarge}"
+                      Checked="PresetToggle_Checked">
+            <BitmapIcon UriSource="/Assets/PixArt/number3.png" />
+        </ToggleButton>
+
+        <ToggleButton x:Name="presetToggleFour" 
+                      Grid.Row="1" 
+                      Style="{ThemeResource PresetToggleLarge}"
+                      Checked="PresetToggle_Checked">
+            <BitmapIcon UriSource="/Assets/PixArt/number4.png" />
+        </ToggleButton>
+
+        <ToggleButton x:Name="presetToggleFive" 
+                      Grid.Row="1" Grid.Column="1" 
+                      Style="{ThemeResource PresetToggleLarge}"
+                      Checked="PresetToggle_Checked">
+            <BitmapIcon UriSource="/Assets/PixArt/number5.png" />
+        </ToggleButton>
+
+        <ToggleButton x:Name="presetToggleSix" 
+                      Grid.Row="1" Grid.Column="2" 
+                      Style="{ThemeResource PresetToggleLarge}"
+                      Checked="PresetToggle_Checked">
+            <BitmapIcon UriSource="/Assets/PixArt/number6.png" />
+        </ToggleButton>
+
+    </Grid>
+
+</UserControl>

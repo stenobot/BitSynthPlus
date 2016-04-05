@@ -1,0 +1,566 @@
+﻿<Page
+    x:Class="BitSynthPlus.KeyboardShell"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BitSynthPlus"
+    xmlns:controls="using:BitSynthPlus.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="Gray">
+
+        <VisualStateManager.VisualStateGroups>
+
+            <VisualStateGroup x:Name="LoadingStates">
+                <VisualState x:Name="Loading">
+                    <VisualState.Setters>
+                        <Setter Target="loadingGrid.Visibility" Value="Visible" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="Loaded">
+                    <VisualState.Setters>
+                        <Setter Target="loadingGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="WidthStates">
+
+                <!-- show 24 white keys -->
+                <VisualState x:Name="ExtraLargeWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{ThemeResource ExtraLargeHeightBreakpoint}" />
+                    </VisualState.StateTriggers>
+                </VisualState>
+
+                <!-- show 18 white keys -->
+                <VisualState x:Name="LargeWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{ThemeResource LargeWidthBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
+                        <Setter Target="presetControlGrid.Width" Value="300" />
+                        <Setter Target="controlsBackgroundImage.Width" Value="1260" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!-- show 14 white keys -->
+                <VisualState x:Name="MediumWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{ThemeResource MediumWidthBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
+                        <Setter Target="presetControlGrid.Width" Value="200" />
+                        <Setter Target="controlsBackgroundImage.Width" Value="980" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!-- show 10 white keys -->
+                <VisualState x:Name="SmallWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="{ThemeResource SmallWidthBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveSix.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
+                        <Setter Target="presetControlGrid.Width" Value="150" />
+                        <Setter Target="controlsBackgroundImage.Width" Value="700" />
+                        <Setter Target="pOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="pTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="wOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="wTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="pOneLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
+                        <Setter Target="pTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
+                        <Setter Target="wOneLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
+                        <Setter Target="wTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
+                        <Setter Target="soundBankControlGrid.Visibility" Value="Collapsed" />
+                        <Setter Target="ledGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <!-- show 7 white keys -->
+                <VisualState x:Name="ExtraSmallWidth">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveThree.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveSix.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
+                        <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
+                        <Setter Target="presetControlGrid.Width" Value="100" />
+                        <Setter Target="presetsTitleIcon.Height" Value="10" />
+                        <Setter Target="controlsTitleIcon.Height" Value="10" />
+                        <Setter Target="controlsBackgroundImage.Width" Value="500" />
+                        <Setter Target="ledGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="HeightStates">
+
+                <VisualState x:Name="ExtraLargeHeight">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="{ThemeResource ExtraLargeHeightBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="controlsGrid.Height" Value="400" />
+                        <Setter Target="presetControlGrid.Height" Value="400" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="LargeHeight">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="{ThemeResource LargeHeightBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="controlsGrid.Height" Value="250" />
+                        <Setter Target="presetControlGrid.Height" Value="250" />
+                        <Setter Target="pOneToggleStackTwo.(Grid.Row)" Value="0"/>
+                        <Setter Target="pOneToggleStackTwo.(Grid.Column)" Value="1"/>
+
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="MediumHeight">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="{ThemeResource MediumHeightBreakpoint}" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="controlsGrid.Height" Value="160" />
+                        <Setter Target="presetControlGrid.Height" Value="160" />
+                        <Setter Target="presetsTitleIcon.Margin" Value="15,0,0,5" />
+                        <Setter Target="logoTitleIcon.Margin" Value="15,15,0,10" />
+                    </VisualState.Setters>
+                </VisualState>
+
+                <VisualState x:Name="SmallHeight">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowHeight="0" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="controlsGrid.Height" Value="100" />
+                        <Setter Target="presetControlGrid.Height" Value="100" />
+                        <Setter Target="presetsTitleIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="logoTitleIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="controlsTitleIcon.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="LedStates">
+                <VisualState x:Name="LedNormal">
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ledIcon" 
+                                         Storyboard.TargetProperty="Opacity" 
+                                         Duration="0:0:.4" 
+                                         To="0" />
+                    </Storyboard>
+                </VisualState>
+
+                <VisualState x:Name="LedLit">
+                    <VisualState.Setters>
+                        <Setter Target="ledIcon.Opacity" Value="1" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+
+        <Grid x:Name="contentGrid" 
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center" 
+              Margin="4,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Grid x:Name="controlsGrid">
+                <Rectangle StrokeThickness="4" 
+                           Stroke="Black" 
+                           Margin="-4,0,0,-4" 
+                           Fill="{ThemeResource BackgroundGradientBrush}"/>
+
+                <Image x:Name="controlsBackgroundImage" 
+                       Source="/Assets/PixArt/cp-bkgd.png" 
+                       Stretch="UniformToFill" 
+                       Width="1690"
+                       HorizontalAlignment="Center" />
+
+                <RelativePanel>
+
+                    <Grid x:Name="presetControlGrid" 
+                          Margin="0,4,0,0" 
+                          Width="450"
+                          Background="Transparent">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <!-- logo -->
+                        <BitmapIcon x:Name="logoTitleIcon" 
+                                    UriSource="/Assets/PixArt/bitsynth-logo.png" 
+                                    MaxHeight="25"
+                                    Margin="15,15,0,20" 
+                                    Foreground="{ThemeResource BitSynthAccentColorBrush}"
+                                    HorizontalAlignment="Left" />
+
+                        <!-- presets -->
+                        <StackPanel Grid.Row="1">
+
+                            <BitmapIcon x:Name="presetsTitleIcon"  
+                                    UriSource="/Assets/PixArt/presets-title.png" 
+                                    Height="12" 
+                                    Margin="15,0,0,10" 
+                                    HorizontalAlignment="Left" />
+
+                            <controls:PresetsGrid x:Name="presetGridControl"
+                                                  HorizontalAlignment="Center" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="soundBankControlGrid" 
+                          Margin="20" 
+                          RelativePanel.RightOf="presetControlGrid">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <BitmapIcon x:Name="controlsTitleIcon" 
+                                    UriSource="/Assets/PixArt/control-title.png" 
+                                    Height="12" 
+                                    Margin="0,0,0,10" 
+                                    HorizontalAlignment="Left" />
+
+                        <StackPanel Orientation="Horizontal" Grid.Row="1">
+
+                            <Grid Padding="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+
+                                <StackPanel x:Name="pOneToggleStackOne">
+                                    <ToggleButton x:Name="pOneVolumeToggle" 
+                                                  IsThreeState="True" 
+                                                  Click="VolumeToggle_Click"
+                                                  Style="{ThemeResource VolumeToggleLarge}">
+                                    </ToggleButton>
+                                    <ToggleButton x:Name="pOneLoopToggle" 
+                                                  Style="{ThemeResource GeneralToggleLarge}">
+                                        <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                    </ToggleButton>
+                                </StackPanel>
+
+                                <StackPanel x:Name="pOneToggleStackTwo" Grid.Row="1">
+                                    <ToggleButton x:Name="pOneEffectOneToggle" 
+                                                  Style="{ThemeResource GeneralToggleLarge}">
+                                        <SymbolIcon Symbol="Help"/>
+                                    </ToggleButton>
+                                    <ToggleButton x:Name="pOneEffectTwoToggle" 
+                                                  Style="{ThemeResource GeneralToggleLarge}">
+                                        <SymbolIcon Symbol="Help"/>
+                                    </ToggleButton>
+                                </StackPanel>
+
+                            </Grid>
+
+                            <StackPanel Padding="10">
+                                <ToggleButton x:Name="pTwoVolumeToggle" 
+                                              IsThreeState="True" 
+                                               Click="VolumeToggle_Click"
+                                              Style="{ThemeResource VolumeToggleLarge}">
+                                </ToggleButton>
+                                <ToggleButton x:Name="pTwoLoopToggle" 
+                                              Style="{ThemeResource GeneralToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                </ToggleButton>
+                            </StackPanel>
+
+                            <StackPanel Padding="10">
+                                <ToggleButton x:Name="wOneVolumeToggle" 
+                                              IsThreeState="True" 
+                                               Click="VolumeToggle_Click"
+                                              Style="{ThemeResource VolumeToggleLarge}">
+                                </ToggleButton>
+                                <ToggleButton x:Name="wOneLoopToggle" 
+                                              Style="{ThemeResource GeneralToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                </ToggleButton>
+                            </StackPanel>
+
+                            <StackPanel Padding="10">
+                                <ToggleButton x:Name="wTwoVolumeToggle" 
+                                              IsThreeState="True" 
+                                              
+                                               Click="VolumeToggle_Click"
+                                              Style="{ThemeResource VolumeToggleLarge}">
+                                </ToggleButton>
+                                <ToggleButton x:Name="wTwoLoopToggle" 
+                                              Style="{ThemeResource GeneralToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                </ToggleButton>
+                            </StackPanel>
+
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="ledGrid" 
+                          RelativePanel.RightOf="soundBankControlGrid" 
+                          Margin="20">
+                        <Rectangle Fill="White" 
+                                   Width="8" 
+                                   Height="8" />
+                        <BitmapIcon Width="16" 
+                                    Height="16" 
+                                    Foreground="LightPink"
+                                    UriSource="/Assets/PixArt/led.png" />
+                        <BitmapIcon x:Name="ledIcon" 
+                                    Width="16" 
+                                    Height="16" 
+                                    Foreground="Red"
+                                    UriSource="/Assets/PixArt/led.png" />
+                    </Grid>
+                </RelativePanel>
+            </Grid>
+
+
+            <Grid x:Name="keyboardGrid" Grid.Row="1">
+                <StackPanel Orientation="Horizontal">
+
+                    <Grid x:Name="halfOctaveOne">
+                        <controls:Key x:Name="key1E" Template="{ThemeResource WhiteKeyTemplate}" 
+                                      Style="{ThemeResource LargeWhiteKeyStyle}"
+                                      IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                    </Grid>
+
+                    <Grid x:Name="halfOctaveTwo">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:Key x:Name="key1F" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key1G" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key2A" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key2B" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                            <controls:Key x:Name="key1FSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" 
+                                          Margin="40,0,0,0" />
+                            <controls:Key x:Name="key1GSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key2ASharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="halfOctaveThree">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:Key x:Name="key2C" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key2D" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key2E" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                            <controls:Key x:Name="key2CSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" 
+                                          Margin="40,0,0,0"/>
+                            <controls:Key x:Name="key2DSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="halfOctaveFour">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:Key x:Name="key2F" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key2G" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key3A" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key3B" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                            <controls:Key x:Name="key2FSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" 
+                                          Margin="40,0,0,0"/>
+                            <controls:Key x:Name="key2GSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key3ASharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="halfOctaveFive">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:Key x:Name="key3C" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key3D" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key3E" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="top">
+                            <controls:Key x:Name="key3CSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" 
+                                          Margin="40,0,0,0"/>
+                            <controls:Key x:Name="key3DSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="halfOctaveSix">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:Key x:Name="key3F" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key3G" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key4A" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key4B" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                            <controls:Key x:Name="key3FSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" 
+                                          Margin="40,0,0,0"/>
+                            <controls:Key x:Name="key3GSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key4ASharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="halfOctaveSeven">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:Key x:Name="key4C" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key4D" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key4E" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                            <controls:Key x:Name="key4CSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" 
+                                         Margin="40,0,0,0"/>
+                            <controls:Key x:Name="key4DSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Grid x:Name="halfOctaveEight">
+                        <StackPanel Orientation="Horizontal">
+                            <controls:Key x:Name="key4F" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                            <controls:Key x:Name="key4G" Template="{ThemeResource WhiteKeyTemplate}" 
+                                          Style="{ThemeResource LargeWhiteKeyStyle}"
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Top">
+                            <controls:Key x:Name="key4FSharp" Template="{ThemeResource BlackKeyTemplate}" 
+                                          Style="{ThemeResource LargeBlackKeyStyle}" 
+                                          IsPressedPropertyChanged="Key_IsPressedPropertyChanged" 
+                                          Margin="40,0,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                </StackPanel>
+
+            </Grid>
+
+
+
+            <!--<StackPanel Orientation="Horizontal" Grid.Row="2" Visibility="Collapsed">
+                <Button Content="up" HorizontalAlignment="Center" Width="100" Height="100" x:Name="testUp" Click="Button_Click" />
+                <Button Content="down" x:Name="testDown" HorizontalAlignment="Center" Width="100" Height="100" Click="Button_Click" />
+                <TextBlock x:Name="testTextBlock" />
+                
+            </StackPanel>-->
+
+        </Grid>
+
+        <Grid x:Name="loadingGrid" 
+              Background="{ThemeResource LoadingBackgroundBrush}">
+            <StackPanel VerticalAlignment="Center">
+                <ProgressRing IsActive="True" Width="70" Height="70" />
+                <TextBlock Text="Loading sounds..." HorizontalAlignment="Center" />
+            </StackPanel>
+
+        </Grid>
+
+
+    </Grid>
+</Page>

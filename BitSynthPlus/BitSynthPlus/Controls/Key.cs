@@ -1,0 +1,101 @@
+﻿using System;
+using System.Collections.Generic;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
+
+namespace BitSynthPlus.Controls
+{
+    public class Key : Control
+    {
+        public delegate void ValueChangedEventHandler(object sender, EventArgs e);
+
+        public event ValueChangedEventHandler IsPressedPropertyChanged;
+
+        static readonly DependencyProperty isPressedProperty =
+            DependencyProperty.Register("IsPressed",
+                typeof(bool), typeof(Key),
+                new PropertyMetadata(false, OnIsPressedChanged));
+
+        List<uint> pointerList = new List<uint>();
+
+        public static DependencyProperty IsPressedProperty
+        {
+            get { return isPressedProperty; }
+        }
+
+        public bool IsPressed
+        {
+            set { SetValue(IsPressedProperty, value); }
+            get { return (bool)GetValue(IsPressedProperty); }
+        }
+
+        protected override void OnPointerEntered(PointerRoutedEventArgs args)
+        {
+            if (args.Pointer.IsInContact)
+                AddToList(args.Pointer.PointerId);
+            base.OnPointerEntered(args);
+
+            ChangeIsPressedProperty();
+        }
+
+        protected override void OnPointerPressed(PointerRoutedEventArgs args)
+        {
+            AddToList(args.Pointer.PointerId);
+            base.OnPointerPressed(args);
+
+            ChangeIsPressedProperty();
+        }
+
+        protected override void OnPointerReleased(PointerRoutedEventArgs args)
+        {
+            RemoveFromList(args.Pointer.PointerId);
+            base.OnPointerReleased(args);
+
+            ChangeIsPressedProperty();
+        }
+
+        protected override void OnPointerExited(PointerRoutedEventArgs args)
+        {
+            RemoveFromList(args.Pointer.PointerId);
+            base.OnPointerExited(args);
+
+            ChangeIsPressedProperty();
+        }
+
+        void AddToList(uint id)
+        {
+            if (!pointerList.Contains(id))
+                pointerList.Add(id);
+
+            CheckList();
+        }
+
+        void RemoveFromList(uint id)
+        {
+            if (pointerList.Contains(id))
+                pointerList.Remove(id);
+
+            CheckList();
+        }
+
+        void CheckList()
+        {
+            this.IsPressed = pointerList.Count > 0;
+        }
+
+        public static void OnIsPressedChanged(DependencyObject obj, DependencyPropertyChangedEventArgs args)
+        {
+            VisualStateManager.GoToState(obj as Key,
+                (bool)args.NewValue ? "Pressed" : "Normal", false);
+        }
+
+        private void ChangeIsPressedProperty()
+        {
+            if (IsPressedPropertyChanged != null)
+            {
+                IsPressedPropertyChanged(this, EventArgs.Empty);
+            }
+        }
+    }
+}
