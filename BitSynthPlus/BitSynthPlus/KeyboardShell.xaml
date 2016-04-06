@@ -31,9 +31,10 @@
                 <!-- show 24 white keys -->
                 <VisualState x:Name="ExtraLargeWidth">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{ThemeResource ExtraLargeHeightBreakpoint}" />
+                        <AdaptiveTrigger MinWindowWidth="{ThemeResource ExtraLargeWidthBreakpoint}" />
                     </VisualState.StateTriggers>
                 </VisualState>
+
 
                 <!-- show 18 white keys -->
                 <VisualState x:Name="LargeWidth">
@@ -64,36 +65,10 @@
                     </VisualState.Setters>
                 </VisualState>
 
-                <!-- show 10 white keys -->
+                <!-- show 7 white keys -->
                 <VisualState x:Name="SmallWidth">
                     <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{ThemeResource SmallWidthBreakpoint}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
-                        <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
-                        <Setter Target="halfOctaveSix.Visibility" Value="Collapsed" />
-                        <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
-                        <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
-                        <Setter Target="presetControlGrid.Width" Value="150" />
-                        <Setter Target="controlsBackgroundImage.Width" Value="700" />
-                        <Setter Target="pOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
-                        <Setter Target="pTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
-                        <Setter Target="wOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
-                        <Setter Target="wTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
-                        <Setter Target="pOneLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="pTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wOneLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="soundBankControlGrid.Visibility" Value="Collapsed" />
-                        <Setter Target="ledGrid.Visibility" Value="Collapsed" />
-                    </VisualState.Setters>
-                </VisualState>
-
-                <!-- show 7 white keys -->
-                <VisualState x:Name="ExtraSmallWidth">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="500" />
+                        <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />

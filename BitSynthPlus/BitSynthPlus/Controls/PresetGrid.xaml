@@ -28,21 +28,8 @@
                     </VisualState.Setters>
                 </VisualState>
 
-                <VisualState x:Name="SmallWidth">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="{ThemeResource SmallWidthBreakpoint}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="presetToggleOne.Style" Value="{ThemeResource PresetToggleSmall}" />
-                        <Setter Target="presetToggleTwo.Style" Value="{ThemeResource PresetToggleSmall}" />
-                        <Setter Target="presetToggleThree.Style" Value="{ThemeResource PresetToggleSmall}" />
-                        <Setter Target="presetToggleFour.Style" Value="{ThemeResource PresetToggleSmall}" />
-                        <Setter Target="presetToggleFive.Style" Value="{ThemeResource PresetToggleSmall}" />
-                        <Setter Target="presetToggleSix.Style" Value="{ThemeResource PresetToggleSmall}" />
-                    </VisualState.Setters>
-                </VisualState>
 
-                <VisualState x:Name="ExtraSmallWidth">
+                <VisualState x:Name="SmallWidth">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0"/>
                     </VisualState.StateTriggers>
