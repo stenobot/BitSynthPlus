@@ -18,6 +18,8 @@
                              Opacity="0.8" />
             <SolidColorBrush x:Key="DarkBackgroundBrush"
                              Color="#FF0C0C0C" />
+            <SolidColorBrush x:Key="ToggleButtonDisabledBrush"
+                             Color="Gray" />
             <LinearGradientBrush x:Key="BackgroundGradientBrush" 
                                  StartPoint="0.5,0" EndPoint="0.5,1">
                 <GradientStop Color="Black" Offset="0.0" />
@@ -40,6 +42,8 @@
                              Opacity="0.8" />
             <SolidColorBrush x:Key="DarkBackgroundBrush"
                              Color="#FF0C0C0C" />
+            <SolidColorBrush x:Key="ToggleButtonDisabledBrush"
+                             Color="Gray" />
             <LinearGradientBrush x:Key="BackgroundGradientBrush" 
                                  StartPoint="0.5,0" EndPoint="0.5,1">
                 <GradientStop Color="Black" Offset="0.0" />
@@ -60,6 +64,8 @@
                              Opacity="0.8" />
             <SolidColorBrush x:Key="DarkBackgroundBrush"
                              Color="#FF0C0C0C" />
+            <SolidColorBrush x:Key="ToggleButtonDisabledBrush"
+                             Color="Gray"/>
             <LinearGradientBrush x:Key="BackgroundGradientBrush" 
                                  StartPoint="0.5,0" EndPoint="0.5,1">
                 <GradientStop Color="Black" Offset="0.0" />
@@ -69,6 +75,9 @@
         </ResourceDictionary>
 
     </ResourceDictionary.ThemeDictionaries>
+
+    <FontFamily x:Key="ZeldaFont">/Assets/Fonts/ZeldaDXTTBRK.ttf#Zelda DX TT BRK</FontFamily>
+
 
     <!-- Breakpoints -->
     <x:Double x:Key="MediumHeightBreakpoint">370</x:Double>
@@ -84,6 +93,7 @@
     <x:Double x:Key="PresetToggleSmallHeight">24</x:Double>
 
 
+    <!-- key templates -->
     <ControlTemplate x:Key="WhiteKeyTemplate" TargetType="controls:Key">
         <Grid>
             <Rectangle StrokeThickness="4" Stroke="Black" Margin="-4,0,0,0" >
@@ -147,6 +157,7 @@
     </ControlTemplate>
 
 
+    <!-- key styles -->
     <Style x:Key="LargeWhiteKeyStyle"
            TargetType="controls:Key">
         <Setter Property="Width"
@@ -166,6 +177,7 @@
     </Style>
 
 
+    <!-- preset toggle styles -->
     <Style x:Key="PresetToggleLarge"
            TargetType="ToggleButton">
         <Setter Property="Width"
@@ -208,17 +220,65 @@
                 Value="16" />
     </Style>
 
+    
+   
+    <!-- general toggle styles -->
+    <Style x:Key="GeneralToggleLarge"
+           TargetType="ToggleButton">
+        <Setter Property="Width"
+                Value="70" />
+        <Setter Property="Padding"
+                Value="2" />
+        <Setter Property="Margin"
+                Value="0,0,0,4" />
+        <Setter Property="IsEnabled"
+                Value="False"/>
+    </Style>
+
+    <Style x:Key="GeneralToggleMedium"
+           TargetType="ToggleButton">
+        <Setter Property="Width"
+                Value="60" />
+        <Setter Property="Padding"
+                Value="3" />
+    </Style>
+
+    <Style x:Key="GeneralToggleSmall"
+           TargetType="ToggleButton">
+        <Setter Property="Width"
+                Value="55" />
+        <Setter Property="Padding"
+                Value="3" />
+    </Style>
+
+
+    <!-- volume toggle styles -->
+
     <Style x:Key="VolumeToggleLarge" 
            TargetType="ToggleButton" 
            BasedOn="{StaticResource VolumeToggleBaseStyle}">
         <Setter Property="Width"
-                Value="90" />
+                Value="70" />
         <Setter Property="Height" 
-                Value="90" />
+                Value="70" />
         <Setter Property="Margin"
-                Value="0,0,0,10" />
+                Value="0,0,0,5" />
         <Setter Property="Padding"
-                Value="25" />
+                Value="14" />
+    </Style>
+
+
+    <Style x:Key="VolumeToggleMedium" 
+           TargetType="ToggleButton" 
+           BasedOn="{StaticResource VolumeToggleBaseStyle}">
+        <Setter Property="Width"
+                Value="60" />
+        <Setter Property="Height" 
+                Value="60" />
+        <Setter Property="Margin"
+                Value="0,0,0,5" />
+        <Setter Property="Padding"
+                Value="9" />
     </Style>
 
     <Style x:Key="VolumeToggleSmall" 
@@ -229,35 +289,10 @@
         <Setter Property="Height" 
                 Value="55" />
         <Setter Property="Margin"
-                Value="0,0,0,4" />
+                Value="0,0,0,5" />
         <Setter Property="Padding"
                 Value="9" />
     </Style>
-
-    <Style x:Key="GeneralToggleLarge"
-           TargetType="ToggleButton">
-        <Setter Property="Width"
-                Value="90" />
-        <Setter Property="Height"
-                Value="65" />
-        <Setter Property="Padding"
-                Value="8" />
-        <Setter Property="Margin"
-                Value="0,0,0,5" />
-        <Setter Property="IsEnabled"
-                Value="False"/>
-    </Style>
-
-    <Style x:Key="GeneralToggleSmall"
-           TargetType="ToggleButton">
-        <Setter Property="Width"
-                Value="55" />
-        <Setter Property="Height"
-                Value="30" />
-        <Setter Property="Padding"
-                Value="3" />
-    </Style>
-
 
     <Style x:Key="VolumeToggleBaseStyle" TargetType="ToggleButton">
         <Setter Property="Background" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />

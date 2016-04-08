@@ -17,26 +17,26 @@ using Windows.UI.Xaml.Navigation;
 
 namespace BitSynthPlus.Controls
 {
-    public sealed partial class PresetsGrid : UserControl
+    public sealed partial class PresetsControl : UserControl
     {
         private List<ToggleButton> PresetToggles;
 
 
-        //public static readonly DependencyProperty ColumnsProperty =
-        //   DependencyProperty.Register("Columns", typeof(int), typeof(ColumnGridView), new PropertyMetadata(int.MaxValue));
+        public static readonly DependencyProperty SelectedPresetProperty =
+          DependencyProperty.Register("SelectedPreset", typeof(int), typeof(PresetsControl), new PropertyMetadata(int.MaxValue));
 
         /// <summary>
         /// Gets or sets the number of Columns the GridView can have
         /// Set on Resize()
         /// </summary>
-        //public int Columns
-        //{
-        //    get { return (int)GetValue(ColumnsProperty); }
-        //    set { SetValue(ColumnsProperty, value); }
-        //}
+        public int SelectedPreset
+        {
+            get { return (int)GetValue(SelectedPresetProperty); }
+            private set { SetValue(SelectedPresetProperty, value); }
+        }
 
 
-        public PresetsGrid()
+        public PresetsControl()
         {
 
             this.InitializeComponent();
@@ -48,11 +48,15 @@ namespace BitSynthPlus.Controls
             PresetToggles.Add(presetToggleFour);
             PresetToggles.Add(presetToggleFive);
             PresetToggles.Add(presetToggleSix);
+
+            presetToggleOne.IsChecked = true;
         }
 
         private void PresetToggle_Checked(object sender, RoutedEventArgs e)
         {
             ToggleButton toggle = sender as ToggleButton;
+
+            SelectedPreset = PresetToggles.IndexOf(toggle);
 
             if (PresetToggles == null)
                 return;

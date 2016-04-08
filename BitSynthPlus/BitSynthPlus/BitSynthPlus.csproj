@@ -93,6 +93,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Fonts\ZeldaDXTTBRK.ttf" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
@@ -100,8 +101,11 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Key.cs" />
-    <Compile Include="Controls\PresetGrid.xaml.cs">
-      <DependentUpon>PresetGrid.xaml</DependentUpon>
+    <Compile Include="Controls\PresetsControl.xaml.cs">
+      <DependentUpon>PresetsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SoundBankControl.xaml.cs">
+      <DependentUpon>SoundBankControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataModel\Preset.cs" />
     <Compile Include="DataModel\SoundBank.cs" />
@@ -109,6 +113,7 @@
       <DependentUpon>KeyboardShell.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\PresetInitializer.cs" />
     <Compile Include="Services\SoundBankInitializer.cs" />
     <Compile Include="Services\SoundPlayer.cs" />
     <Compile Include="Services\Utilities.cs" />
@@ -372,6 +377,8 @@
     <Content Include="Assets\PixArt\number4.png" />
     <Content Include="Assets\PixArt\number5.png" />
     <Content Include="Assets\PixArt\number6.png" />
+    <Content Include="Assets\PixArt\p1-shape.png" />
+    <Content Include="Assets\PixArt\p2-shape.png" />
     <Content Include="Assets\PixArt\presets-title.png" />
     <Content Include="Assets\PixArt\volume-high.png" />
     <Content Include="Assets\PixArt\volume-low.png" />
@@ -390,7 +397,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\PresetGrid.xaml">
+    <Page Include="Controls\PresetsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SoundBankControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

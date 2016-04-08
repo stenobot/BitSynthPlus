@@ -53,10 +53,15 @@ namespace BitSynthPlus
         private List<ToggleButton> VolumeToggles;
         private List<BitmapIcon> VolumeIcons;
 
-        BitmapIcon pOneVolumeIcon;
-        BitmapIcon pTwoVolumeIcon;
-        BitmapIcon wOneVolumeIcon;
-        BitmapIcon wTwoVolumeIcon;
+        private List<ToggleButton> AllPOneToggles;
+        private List<ToggleButton> AllPTwoToggles;
+        private List<ToggleButton> AllWOneToggles;
+        private List<ToggleButton> AllWTwoToggles;
+
+        private List<List<ToggleButton>> AllTogglesLists;
+
+        SolidColorBrush accentColor = Application.Current.Resources["BitSynthAccentColorBrush"] as SolidColorBrush;
+        SolidColorBrush disabledColor = Application.Current.Resources["ToggleButtonDisabledBrush"] as SolidColorBrush;
 
         Uri volumeHighIconUri = new Uri("ms-appx:///Assets/PixArt/volume-high.png");
         Uri volumeLowIconUri = new Uri("ms-appx:///Assets/PixArt/volume-low.png");
@@ -85,15 +90,8 @@ namespace BitSynthPlus
         }
 
         private void InitializeControls()
-        {
-
+        { 
             VolumeIcons = new List<BitmapIcon>();
-
-            pOneVolumeIcon = new BitmapIcon();
-            pTwoVolumeIcon = new BitmapIcon();
-            wOneVolumeIcon = new BitmapIcon();
-            wTwoVolumeIcon = new BitmapIcon();
-
 
             pOneVolumeIcon.UriSource = volumeOffIconUri;
             pTwoVolumeIcon.UriSource = volumeOffIconUri;
@@ -105,18 +103,41 @@ namespace BitSynthPlus
             VolumeIcons.Add(wOneVolumeIcon);
             VolumeIcons.Add(wTwoVolumeIcon);
 
-            pOneVolumeToggle.Content = pOneVolumeIcon;
-            pTwoVolumeToggle.Content = pTwoVolumeIcon;
-            wOneVolumeToggle.Content = wOneVolumeIcon;
-            wTwoVolumeToggle.Content = wTwoVolumeIcon;
-
             VolumeToggles = new List<ToggleButton>();
             VolumeToggles.Add(pOneVolumeToggle);
             VolumeToggles.Add(pTwoVolumeToggle);
             VolumeToggles.Add(wOneVolumeToggle);
             VolumeToggles.Add(wTwoVolumeToggle);
 
+            AllPOneToggles = new List<ToggleButton>();
+            AllPOneToggles.Add(pOneVolumeToggle);
+            AllPOneToggles.Add(pOneLoopToggle);
+            AllPOneToggles.Add(pOneEffectOneToggle);
+            AllPOneToggles.Add(pOneEffectTwoToggle);
 
+            AllPTwoToggles = new List<ToggleButton>();
+            AllPTwoToggles.Add(pTwoVolumeToggle);
+            AllPTwoToggles.Add(pTwoLoopToggle);
+            AllPTwoToggles.Add(pTwoEffectOneToggle);
+            AllPTwoToggles.Add(pTwoEffectTwoToggle);
+
+            AllWOneToggles = new List<ToggleButton>();
+            AllWOneToggles.Add(wOneVolumeToggle);
+            AllWOneToggles.Add(wOneLoopToggle);
+            AllWOneToggles.Add(wOneEffectOneToggle);
+            AllWOneToggles.Add(wOneEffectTwoToggle);
+
+            AllWTwoToggles = new List<ToggleButton>();
+            AllWTwoToggles.Add(wTwoVolumeToggle);
+            AllWTwoToggles.Add(wTwoLoopToggle);
+            AllWTwoToggles.Add(wTwoEffectOneToggle);
+            AllWTwoToggles.Add(wTwoEffectTwoToggle);
+
+            AllTogglesLists = new List<List<ToggleButton>>();
+            AllTogglesLists.Add(AllPOneToggles);
+            AllTogglesLists.Add(AllPTwoToggles);
+            AllTogglesLists.Add(AllWOneToggles);
+            AllTogglesLists.Add(AllWTwoToggles);
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -358,42 +379,96 @@ namespace BitSynthPlus
         //        toggle.Content = volumeOffIcon;
         //}
 
+        private void SetVolumeToggleCheckedState(ToggleButton clickedToggle, ToggleButton toggleToSet)
+        {
+            // if any other toggle is set to high volume, set it to low volume (IsChecked = null)
+            if (toggleToSet != clickedToggle &&
+                clickedToggle.IsChecked == true &&
+                toggleToSet.IsChecked == true)
+            {
+                toggleToSet.IsChecked = null;
+            }
+        }
+        
+        private void SetVolumeIcon(BitmapIcon volumeIcon, bool? volumeLevel = false)
+        {
+            switch (volumeLevel)
+            {
+                case true:
+                    if (volumeIcon.UriSource != volumeHighIconUri)
+                    {
+                        volumeIcon.UriSource = volumeHighIconUri;
+                        volumeIcon.Foreground = accentColor;
+                        volumeIcon.Opacity = 1;
+                    }                 
+                    break;
+                case null:
+                    if (volumeIcon.UriSource != volumeLowIconUri)
+                    {
+                        volumeIcon.UriSource = volumeLowIconUri;
+                        volumeIcon.Foreground = accentColor;
+                        volumeIcon.Opacity = 0.5;
+                    }               
+                    break;
+                case false:
+                default:
+                    if (volumeIcon.UriSource != volumeOffIconUri)
+                    {
+                        volumeIcon.UriSource = volumeOffIconUri;
+                        volumeIcon.Foreground = disabledColor;
+                        volumeIcon.Opacity = 0.3;
+                    } 
+                    break;
+            }           
+        }
+
+        private void EnableOrDisableGeneralToggles(ToggleButton volumeToggle)
+        {
+            switch (volumeToggle.IsChecked)
+            {
+                case true:
+                    foreach (ToggleButton generalToggle in AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)])
+                    {
+                        if (AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)].IndexOf(generalToggle) != 0)
+                            generalToggle.IsEnabled = true;
+                    }
+                    break;
+                case null:
+                    foreach (ToggleButton generalToggle in AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)])
+                    {
+                        if (AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)].IndexOf(generalToggle) != 0)
+                            generalToggle.IsEnabled = true;
+                    }
+                    break;
+                case false:
+                default:
+                    foreach (ToggleButton generalToggle in AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)])
+                    {
+                        if (AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)].IndexOf(generalToggle) != 0)
+                            generalToggle.IsEnabled = false;
+                    }
+                    break;
+            }
+        }
+
         private void VolumeToggle_Click(object sender, RoutedEventArgs e)
         {
-            ToggleButton toggle = sender as ToggleButton;
+            ToggleButton clickedToggle = sender as ToggleButton;
 
             if (VolumeToggles == null || VolumeIcons == null)
                 return;
 
             foreach (ToggleButton volumeToggle in VolumeToggles)
             {
-                // if any other toggle is set to high volume, set it to low volume (IsChecked = null)
-                if (volumeToggle != toggle &&
-                    toggle.IsChecked == true &&
-                    volumeToggle.IsChecked == true)
-                {
-                    volumeToggle.IsChecked = null;
-                }
+                // lower toggle's level to medium volume if another toggle is high volume
+                SetVolumeToggleCheckedState(clickedToggle, volumeToggle);
 
                 // check each toggle status and set its icon
                 BitmapIcon icon = VolumeIcons[VolumeToggles.IndexOf(volumeToggle)];
+                SetVolumeIcon(icon, volumeToggle.IsChecked);
 
-                switch (volumeToggle.IsChecked)
-                {
-                    case true:
-                        if (icon.UriSource != volumeHighIconUri)
-                            icon.UriSource = volumeHighIconUri;
-                        break;
-                    case null:
-                        if (icon.UriSource != volumeLowIconUri)
-                            icon.UriSource = volumeLowIconUri;
-                        break;
-                    case false:
-                    default:
-                        if (icon.UriSource != volumeOffIconUri)
-                            icon.UriSource = volumeOffIconUri;
-                        break;
-                }
+                // enable all general toggles in a soundbank of the volume is on, otherwise disable
+                EnableOrDisableGeneralToggles(volumeToggle);            
             }
 
             // adjust the volume for each soundbank

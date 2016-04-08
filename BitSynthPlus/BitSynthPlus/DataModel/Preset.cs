@@ -16,6 +16,7 @@ namespace BitSynthPlus.DataModel
         /// <summary>
         /// List of volume indexes for each SoundBank, in order of each SoundBank's index
         /// 0 = off, 1 = low volume, 2 = high volume
+        /// there can be only one... two ;)
         /// </summary>
         public List<int> SoundBankVolumeIndexes { get; set; }
 
@@ -24,6 +25,6 @@ namespace BitSynthPlus.DataModel
         /// corresponding to a SoundBank's SetNum
         /// General order: Normal, Looping, EffectSaw, EffectSquare 
         /// </summary>
-        public List<int> SoundBankSetIndexes { get; set; }
+        public List<List<int>> SoundBankSetIndexes { get; set; }
     }
 }
