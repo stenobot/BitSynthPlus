@@ -1,39 +1,44 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace BitSynthPlus.Controls
 {
+    /// <summary>
+    /// The Control Panel for Presets, deriving from UserControl
+    /// </summary>
     public sealed partial class PresetsControl : UserControl
     {
         private List<ToggleButton> PresetToggles;
 
-
         public static readonly DependencyProperty SelectedPresetProperty =
           DependencyProperty.Register("SelectedPreset", typeof(int), typeof(PresetsControl), new PropertyMetadata(int.MaxValue));
 
-        /// <summary>
-        /// Gets or sets the number of Columns the GridView can have
-        /// Set on Resize()
-        /// </summary>
+
         public int SelectedPreset
         {
             get { return (int)GetValue(SelectedPresetProperty); }
-            private set { SetValue(SelectedPresetProperty, value); }
+            private set
+            {
+                SetValue(SelectedPresetProperty, value);
+                NotifySelectedPresetChanged("SelectedPreset");
+            }
         }
+
+
+
+
+        public event PropertyChangedEventHandler SelectedPresetChanged;
+
+        void NotifySelectedPresetChanged(string info)
+        {
+            SelectedPresetChanged?.Invoke(this, new PropertyChangedEventArgs(info));
+        }
+
 
 
         public PresetsControl()
@@ -57,6 +62,10 @@ namespace BitSynthPlus.Controls
             ToggleButton toggle = sender as ToggleButton;
 
             SelectedPreset = PresetToggles.IndexOf(toggle);
+
+            //TODO need to tell the shell that selectedpresetchanged so we can update it's soundbank values
+
+
 
             if (PresetToggles == null)
                 return;

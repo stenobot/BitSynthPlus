@@ -6,6 +6,11 @@ using Windows.UI.Xaml.Input;
 
 namespace BitSynthPlus.Controls
 {
+    /// <summary>
+    /// A class representing each Key object
+    /// Derives from basic XAML Control class
+    /// Override events and Pointer List enables Key touch behavior for sliding across a key to activate
+    /// </summary>
     public class Key : Control
     {
         public delegate void ValueChangedEventHandler(object sender, EventArgs e);
@@ -24,12 +29,19 @@ namespace BitSynthPlus.Controls
             get { return isPressedProperty; }
         }
 
+        /// <summary>
+        /// Gets or sets whether or not a Key is pressed
+        /// </summary>
         public bool IsPressed
         {
-            set { SetValue(IsPressedProperty, value); }
             get { return (bool)GetValue(IsPressedProperty); }
+            set { SetValue(IsPressedProperty, value); }
         }
 
+        /// <summary>
+        /// Overriding OnPointerEntered to behave more like typical Pressed event
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnPointerEntered(PointerRoutedEventArgs args)
         {
             if (args.Pointer.IsInContact)
@@ -39,6 +51,10 @@ namespace BitSynthPlus.Controls
             ChangeIsPressedProperty();
         }
 
+        /// <summary>
+        /// Overriding OnPointerPressed to keep track of Pointer list
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnPointerPressed(PointerRoutedEventArgs args)
         {
             AddToList(args.Pointer.PointerId);
@@ -47,6 +63,10 @@ namespace BitSynthPlus.Controls
             ChangeIsPressedProperty();
         }
 
+        /// <summary>
+        /// Overriding OnPointerReleased to keep track of Pointer list
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnPointerReleased(PointerRoutedEventArgs args)
         {
             RemoveFromList(args.Pointer.PointerId);
@@ -55,6 +75,10 @@ namespace BitSynthPlus.Controls
             ChangeIsPressedProperty();
         }
 
+        /// <summary>
+        /// Overriding OnPointerExited to keep track of Pointer list
+        /// </summary>
+        /// <param name="args"></param>
         protected override void OnPointerExited(PointerRoutedEventArgs args)
         {
             RemoveFromList(args.Pointer.PointerId);
@@ -63,6 +87,10 @@ namespace BitSynthPlus.Controls
             ChangeIsPressedProperty();
         }
 
+        /// <summary>
+        /// Adds a Pointer Id to the Pointer List
+        /// </summary>
+        /// <param name="id"></param>
         void AddToList(uint id)
         {
             if (!pointerList.Contains(id))
@@ -71,6 +99,10 @@ namespace BitSynthPlus.Controls
             CheckList();
         }
 
+        /// <summary>
+        /// Removes a Pointer Id from the Pointer List
+        /// </summary>
+        /// <param name="id"></param>
         void RemoveFromList(uint id)
         {
             if (pointerList.Contains(id))
@@ -79,6 +111,9 @@ namespace BitSynthPlus.Controls
             CheckList();
         }
 
+        /// <summary>
+        /// Sets IsPressed if Pointer List count is greater than 0
+        /// </summary>
         void CheckList()
         {
             this.IsPressed = pointerList.Count > 0;

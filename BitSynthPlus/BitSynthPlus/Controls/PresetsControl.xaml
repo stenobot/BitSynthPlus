@@ -99,9 +99,9 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <ToggleButton x:Name="presetToggleOne" 
-                              Style="{ThemeResource PresetToggleLarge}"
-                              Checked="PresetToggle_Checked">
+        <ToggleButton x:Name="presetToggleOne"
+                      Style="{ThemeResource PresetToggleLarge}"
+                      Checked="PresetToggle_Checked">
             <BitmapIcon UriSource="/Assets/PixArt/number1.png" />
         </ToggleButton>
 

@@ -14,11 +14,6 @@ namespace BitSynthPlus.DataModel
         public string Name { get; set; }
 
         /// <summary>
-        /// The index number of a SoundBank 
-        /// </summary>
-        public int Index { get; set; }
-
-        /// <summary>
         /// The total number of sound sets in a SoundBank
         /// </summary>
         //public int SetsNum { get; set; }

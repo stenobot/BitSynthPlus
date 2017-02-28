@@ -1,4 +1,5 @@
 ﻿using BitSynthPlus.Controls;
+using BitSynthPlus.DataModel;
 using BitSynthPlus.Services;
 using System;
 using System.Collections.Generic;
@@ -43,12 +44,9 @@ namespace BitSynthPlus
     /// </summary>
     public sealed partial class KeyboardShell : Page
     {
-        SoundPlayer soundPlayer;
+        static readonly double masterVolumeDefaultVal = (double)Application.Current.Resources["MasterVolumeDefault"];
 
-        private AudioGraph graph;
-        private AudioDeviceOutputNode deviceOutputNode;
-        private AudioFrameInputNode frameInputNode;
-        public double theta = 0;
+        private SoundPlayer soundPlayer;
 
         private List<ToggleButton> VolumeToggles;
         private List<BitmapIcon> VolumeIcons;
@@ -59,6 +57,9 @@ namespace BitSynthPlus
         private List<ToggleButton> AllWTwoToggles;
 
         private List<List<ToggleButton>> AllTogglesLists;
+
+        private PresetInitializer presetInitializer;
+        private List<Preset> Presets;
 
         SolidColorBrush accentColor = Application.Current.Resources["BitSynthAccentColorBrush"] as SolidColorBrush;
         SolidColorBrush disabledColor = Application.Current.Resources["ToggleButtonDisabledBrush"] as SolidColorBrush;
@@ -76,7 +77,6 @@ namespace BitSynthPlus
         {
             VisualStateManager.GoToState(this, "Loading", true);
 
-            //await CreateAudioGraph();
 
             soundPlayer = new SoundPlayer();
             await soundPlayer.InitializeSounds();
@@ -84,9 +84,19 @@ namespace BitSynthPlus
 
             InitializeControls();
 
-            //SetVolumeToggleIcons();
+            InitializePresets();
+
+            masterVolumeSlider.Value = masterVolumeDefaultVal;
 
             VisualStateManager.GoToState(this, "Loaded", true);
+        }
+
+        private void InitializePresets()
+        {
+            presetInitializer = new PresetInitializer();
+
+            Presets = new List<Preset>();
+            Presets.AddRange(presetInitializer.allPresets);
         }
 
         private void InitializeControls()
@@ -112,26 +122,18 @@ namespace BitSynthPlus
             AllPOneToggles = new List<ToggleButton>();
             AllPOneToggles.Add(pOneVolumeToggle);
             AllPOneToggles.Add(pOneLoopToggle);
-            AllPOneToggles.Add(pOneEffectOneToggle);
-            AllPOneToggles.Add(pOneEffectTwoToggle);
 
             AllPTwoToggles = new List<ToggleButton>();
             AllPTwoToggles.Add(pTwoVolumeToggle);
             AllPTwoToggles.Add(pTwoLoopToggle);
-            AllPTwoToggles.Add(pTwoEffectOneToggle);
-            AllPTwoToggles.Add(pTwoEffectTwoToggle);
 
             AllWOneToggles = new List<ToggleButton>();
             AllWOneToggles.Add(wOneVolumeToggle);
             AllWOneToggles.Add(wOneLoopToggle);
-            AllWOneToggles.Add(wOneEffectOneToggle);
-            AllWOneToggles.Add(wOneEffectTwoToggle);
 
             AllWTwoToggles = new List<ToggleButton>();
             AllWTwoToggles.Add(wTwoVolumeToggle);
             AllWTwoToggles.Add(wTwoLoopToggle);
-            AllWTwoToggles.Add(wTwoEffectOneToggle);
-            AllWTwoToggles.Add(wTwoEffectTwoToggle);
 
             AllTogglesLists = new List<List<ToggleButton>>();
             AllTogglesLists.Add(AllPOneToggles);
@@ -140,15 +142,6 @@ namespace BitSynthPlus
             AllTogglesLists.Add(AllWTwoToggles);
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            if (graph != null)
-            {
-                graph.Dispose();
-            }
-
-
-        }
 
         private void Key_IsPressedPropertyChanged(object sender, EventArgs e)
         {
@@ -228,6 +221,51 @@ namespace BitSynthPlus
                 case "key3E":
                     PlaySample(23, key.IsPressed);
                     break;
+                case "key3F":
+                    PlaySample(24, key.IsPressed);
+                    break;
+                case "key3FSharp":
+                    PlaySample(25, key.IsPressed);
+                    break;
+                case "key3G":
+                    PlaySample(26, key.IsPressed);
+                    break;
+                case "key3GSharp":
+                    PlaySample(27, key.IsPressed);
+                    break;
+                case "key4A":
+                    PlaySample(28, key.IsPressed);
+                    break;
+                case "key4ASharp":
+                    PlaySample(29, key.IsPressed);
+                    break;
+                case "key4B":
+                    PlaySample(30, key.IsPressed);
+                    break;
+                case "key4C":
+                    PlaySample(31, key.IsPressed);
+                    break;
+                case "key4CSharp":
+                    PlaySample(32, key.IsPressed);
+                    break;
+                case "key4D":
+                    PlaySample(33, key.IsPressed);
+                    break;
+                case "key4DSharp":
+                    PlaySample(34, key.IsPressed);
+                    break;
+                case "key4E":
+                    PlaySample(35, key.IsPressed);
+                    break;
+                case "key4F":
+                    PlaySample(36, key.IsPressed);
+                    break;
+                case "key4FSharp":
+                    PlaySample(37, key.IsPressed);
+                    break;
+                case "key4G":
+                    PlaySample(38, key.IsPressed);
+                    break;
             }
 
 
@@ -253,132 +291,12 @@ namespace BitSynthPlus
 
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-            frameInputNode.Start();
 
-
-            if (btn.Name == "testUp")
-                frameInputNode.PlaybackSpeedFactor = frameInputNode.PlaybackSpeedFactor + 0.1;
-            else
-                frameInputNode.PlaybackSpeedFactor = frameInputNode.PlaybackSpeedFactor - 0.1;
-
-        }
-
-
-        //private async Task CreateAudioGraph()
-        //{
-        //    // Create an AudioGraph with default settings
-        //    AudioGraphSettings settings = new AudioGraphSettings(AudioRenderCategory.Media);
-        //    CreateAudioGraphResult result = await AudioGraph.CreateAsync(settings);
-
-        //    if (result.Status != AudioGraphCreationStatus.Success)
-        //    {
-        //        // Cannot create graph
-        //        //testTextBlock.Text = "AudioGraph Creation Error...";
-        //        return;
-        //    }
-
-        //    graph = result.Graph;
-
-        //    // Create a device output node
-        //    CreateAudioDeviceOutputNodeResult deviceOutputNodeResult = await graph.CreateDeviceOutputNodeAsync();
-        //    if (deviceOutputNodeResult.Status != AudioDeviceNodeCreationStatus.Success)
-        //    {
-        //        // Cannot create device output node
-        //        //testTextBlock.Text = "Audio Device Output unavailable...";
-        //        //testGrid.Background = new SolidColorBrush(Colors.Red);
-        //    }
-
-        //    deviceOutputNode = deviceOutputNodeResult.DeviceOutputNode;
-        //    //testTextBlock.Text = "Device Output Node successfully created";
-        //    //testGrid.Background = new SolidColorBrush(Colors.Green);
-
-        //    // Create the FrameInputNode at the same format as the graph, except explicitly set mono.
-        //    AudioEncodingProperties nodeEncodingProperties = graph.EncodingProperties;
-        //    nodeEncodingProperties.ChannelCount = 1;
-        //    frameInputNode = graph.CreateFrameInputNode(nodeEncodingProperties);
-        //    frameInputNode.AddOutgoingConnection(deviceOutputNode);
-
-        //    // Initialize the Frame Input Node in the stopped state
-        //    frameInputNode.Stop();
-
-        //    // Hook up an event handler so we can start generating samples when needed
-        //    // This event is triggered when the node is required to provide data
-        //    frameInputNode.QuantumStarted += node_QuantumStarted;
-
-        //    // Start the graph since we will only start/stop the frame input node
-        //    graph.Start();
-        //}
-
-
-
-        //unsafe private AudioFrame GenerateAudioData(uint samples)
-        //{
-        //    // Buffer size is (number of samples) * (size of each sample)
-        //    // We choose to generate single channel (mono) audio. For multi-channel, multiply by number of channels
-        //    uint bufferSize = samples * sizeof(float);
-        //    AudioFrame frame = new Windows.Media.AudioFrame(bufferSize);
-
-        //    using (AudioBuffer buffer = frame.LockBuffer(AudioBufferAccessMode.Write))
-        //    using (IMemoryBufferReference reference = buffer.CreateReference())
-        //    {
-        //        byte* dataInBytes;
-        //        uint capacityInBytes;
-        //        float* dataInFloat;
-
-        //        // Get the buffer from the AudioFrame
-        //        ((IMemoryBufferByteAccess)reference).GetBuffer(out dataInBytes, out capacityInBytes);
-
-        //        // Cast to float since the data we are generating is float
-        //        dataInFloat = (float*)dataInBytes;
-
-        //        float freq = 1000; // choosing to generate frequency of 1kHz
-        //        float amplitude = 0.3f;
-        //        int sampleRate = (int)graph.EncodingProperties.SampleRate;
-        //        double sampleIncrement = (freq * (Math.PI * 2)) / sampleRate;
-
-        //        // Generate a 1kHz sine wave and populate the values in the memory buffer
-        //        for (int i = 0; i < samples; i++)
-        //        {
-        //            double sinValue = amplitude * Math.Sin(theta);
-        //            dataInFloat[i] = (float)sinValue;
-        //            theta += sampleIncrement;
-        //        }
-        //    }
-
-        //    return frame;
-        //}
-
-        //private void node_QuantumStarted(AudioFrameInputNode sender, FrameInputNodeQuantumStartedEventArgs args)
-        //{
-        //    // GenerateAudioData can provide PCM audio data by directly synthesizing it or reading from a file.
-        //    // Need to know how many samples are required. In this case, the node is running at the same rate as the rest of the graph
-        //    // For minimum latency, only provide the required amount of samples. Extra samples will introduce additional latency.
-        //    uint numSamplesNeeded = (uint)args.RequiredSamples;
-
-        //    if (numSamplesNeeded != 0)
-        //    {
-        //        AudioFrame audioData = GenerateAudioData(numSamplesNeeded);
-        //        frameInputNode.AddFrame(audioData);
-        //    }
-        //}
-
-
-
-        //private void SetVolumeToggleIcons(ToggleButton toggle)
-        //{
-
-
-        //    if (toggle.IsChecked == true)
-        //        toggle.Content = volumeHighIcon;
-        //    else if (toggle.IsChecked == null)
-        //        toggle.Content = volumeLowIcon;
-        //    else
-        //        toggle.Content = volumeOffIcon;
-        //}
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clickedToggle"></param>
+        /// <param name="toggleToSet"></param>
         private void SetVolumeToggleCheckedState(ToggleButton clickedToggle, ToggleButton toggleToSet)
         {
             // if any other toggle is set to high volume, set it to low volume (IsChecked = null)
@@ -390,6 +308,12 @@ namespace BitSynthPlus
             }
         }
         
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="volumeIcon"></param>
+        /// <param name="volumeLevel"></param>
         private void SetVolumeIcon(BitmapIcon volumeIcon, bool? volumeLevel = false)
         {
             switch (volumeLevel)
@@ -422,6 +346,11 @@ namespace BitSynthPlus
             }           
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="volumeToggle"></param>
         private void EnableOrDisableGeneralToggles(ToggleButton volumeToggle)
         {
             switch (volumeToggle.IsChecked)
@@ -468,14 +397,77 @@ namespace BitSynthPlus
                 SetVolumeIcon(icon, volumeToggle.IsChecked);
 
                 // enable all general toggles in a soundbank of the volume is on, otherwise disable
-                EnableOrDisableGeneralToggles(volumeToggle);            
+                EnableOrDisableGeneralToggles(volumeToggle);
             }
 
             // adjust the volume for each soundbank
-            soundPlayer.ChangeVolume(pOneVolumeToggle.IsChecked,
+            soundPlayer.ChangeIndividualVolume(pOneVolumeToggle.IsChecked,
                 pTwoVolumeToggle.IsChecked,
                 wOneVolumeToggle.IsChecked,
                 wTwoVolumeToggle.IsChecked);
+        }
+
+
+
+        private void PresetsControl_SelectedPresetChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            foreach (Preset preset in Presets)
+            {
+                if (Presets.IndexOf(preset) == presetsControl.SelectedPreset)
+                {
+                    SetPresetValues(preset);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="preset"></param>
+        private void SetPresetValues(Preset preset)
+        {
+            foreach (List<ToggleButton> togglesList in AllTogglesLists)
+            {
+                foreach (ToggleButton toggle in togglesList)
+                {
+                    switch (preset.SoundBankSetIndexes[AllTogglesLists.IndexOf(togglesList), togglesList.IndexOf(toggle)])
+                    {
+                        case 2:
+                            toggle.IsChecked = true;
+                            break;
+                        case 1:
+                            if (toggle.Name.Contains("Volume"))
+                                toggle.IsChecked = null;
+                            else
+                                toggle.IsChecked = true;
+                            break;
+                        case 0:
+                            toggle.IsChecked = false;
+                            break;
+                    }
+                }
+            }
+        }
+
+        private void DelayToggleButton_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButton clickedToggle = sender as ToggleButton;
+
+            if (clickedToggle.IsChecked == true)
+                soundPlayer.EnableEchoEffect();
+            else
+                soundPlayer.EnableEchoEffect(false);
+        }
+
+        private void ReverbToggle_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleButton clickedToggle = sender as ToggleButton;
+
+            if (clickedToggle.IsChecked == true)
+                soundPlayer.EnableReverbEffect();
+            else
+                soundPlayer.EnableReverbEffect(false);
         }
     }
 }
