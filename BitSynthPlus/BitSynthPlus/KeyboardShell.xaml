@@ -264,7 +264,6 @@
                                                          SelectedPresetChanged="PresetsControl_SelectedPresetChanged"
                                                          HorizontalAlignment="Center" />
                             </StackPanel>
-                            
                         </StackPanel>
                     </Grid>
 
@@ -287,142 +286,147 @@
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
 
                             <!-- soundbank P1 -->
-                            <BitmapIcon x:Name="pOneVolumeIcon" 
-                                        Height="28" 
-                                        Width="28"
-                                        VerticalAlignment="Top"
-                                        Opacity="0.3"
-                                        Margin="0,3,5,0" />
-
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel x:Name="pOneToggleStackOne" 
-                                            Margin="0,0,5,0">
-                                    <ToggleButton x:Name="pOneVolumeToggle" 
-                                                  IsThreeState="True" 
-                                                  Click="VolumeToggle_Click"
-                                                  Style="{ThemeResource VolumeToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/p1-shape.png" />
-                                    </ToggleButton>
-                                    <ToggleButton x:Name="pOneLoopToggle" 
-                                                  Style="{ThemeResource LoopToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
-                                    </ToggleButton>
-                                </StackPanel>
-
-                            </Grid>
+                            <StackPanel Margin="0,3,0,0">
+                                <BitmapIcon x:Name="pOneVolumeIcon" 
+                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
+                                            Height="28" 
+                                            Width="28"
+                                            VerticalAlignment="Top"
+                                            Margin="0,0,0,17" />
+                                <controls:ToggleIcon x:Name="pOnePitchToggleIcon"
+                                                     Height="28" 
+                                                     Width="28"
+                                                     UriSource="/Assets/PixArt/pitch.png"
+                                                     Margin="0,0,0,4" />
+                                <Slider Value="{x:Bind soundPlayer.POnePlaybackSpeed, Mode=TwoWay}" 
+                                        Style="{ThemeResource BitSynthSliderStyle}" 
+                                        Height="65"
+                                        IsEnabled="{Binding ElementName=pOneVolumeToggle, Path=IsChecked}" 
+                                        Maximum="2" 
+                                        Minimum=".5" StepFrequency=".5" />
+                            </StackPanel>
+                            <StackPanel x:Name="pOneToggleStackOne" 
+                                        Margin="0,0,5,0">
+                                <ToggleButton x:Name="pOneVolumeToggle" 
+                                              IsThreeState="True" 
+                                              Click="VolumeToggle_Click"
+                                              Style="{ThemeResource VolumeToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/p1-shape.png" />
+                                </ToggleButton>
+                                <ToggleButton x:Name="pOneLoopToggle" 
+                                              IsEnabled="{Binding ElementName=pOneVolumeToggle, Path=IsChecked}" 
+                                              Style="{ThemeResource LoopToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                </ToggleButton>
+                            </StackPanel>
 
                             <!-- soundbank P2 -->
-                            <BitmapIcon x:Name="pTwoVolumeIcon" 
-                                        Height="28" 
-                                        Width="28"
-                                        VerticalAlignment="Top"
-                                        Opacity="0.3"
-                                        Margin="0,3,5,0" />
-                            
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,3,0,0">
+                                <BitmapIcon x:Name="pTwoVolumeIcon" 
+                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
+                                            Height="28" 
+                                            Width="28"
+                                            VerticalAlignment="Top"
+                                            Margin="0,0,0,17" />
+                                <controls:ToggleIcon x:Name="pTwoPitchToggleIcon"
+                                                     Height="28" 
+                                                     Width="28"
+                                                     UriSource="/Assets/PixArt/pitch.png"
+                                                     Margin="0,0,0,4" />
+                                <Slider Value="{x:Bind soundPlayer.PTwoPlaybackSpeed, Mode=TwoWay}" 
+                                        Style="{ThemeResource BitSynthSliderStyle}" 
+                                        Height="65"
+                                        IsEnabled="{Binding ElementName=pTwoVolumeToggle, Path=IsChecked}" 
+                                        Maximum="2" 
+                                        Minimum=".5" StepFrequency=".5" />
+                            </StackPanel>
 
-                                <StackPanel x:Name="pTwoToggleStackOne" 
-                                            Margin="0,0,5,0">
-                                    <ToggleButton x:Name="pTwoVolumeToggle" 
-                                                  IsThreeState="True" 
-                                                  Click="VolumeToggle_Click"
-                                                  Style="{ThemeResource VolumeToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/p2-shape.png" />
-                                    </ToggleButton>
-                                    <ToggleButton x:Name="pTwoLoopToggle" 
-                                                  Style="{ThemeResource LoopToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
-                                    </ToggleButton>
-                                </StackPanel>
-
-                            </Grid>
+                            <StackPanel x:Name="pTwoToggleStackOne" 
+                                        Margin="0,0,5,0">
+                                <ToggleButton x:Name="pTwoVolumeToggle" 
+                                              IsThreeState="True" 
+                                              Click="VolumeToggle_Click"
+                                              Style="{ThemeResource VolumeToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/p2-shape.png" />
+                                </ToggleButton>
+                                <ToggleButton x:Name="pTwoLoopToggle" 
+                                              IsEnabled="{Binding ElementName=pTwoVolumeToggle, Path=IsChecked}" 
+                                              Style="{ThemeResource LoopToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                </ToggleButton>
+                            </StackPanel>
 
                             <!-- soundbank W1 -->
+                            <StackPanel Margin="0,3,0,0">
+                                <BitmapIcon x:Name="wOneVolumeIcon" 
+                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
+                                            Height="28" 
+                                            Width="28"
+                                            VerticalAlignment="Top"
+                                            Margin="0,0,0,17" />
+                                <controls:ToggleIcon x:Name="wOnePitchToggleIcon"
+                                                     Height="28" 
+                                                     Width="28"
+                                                     UriSource="/Assets/PixArt/pitch.png"
+                                                     Margin="0,0,0,4" />
+                                <Slider Value="{x:Bind soundPlayer.WOnePlaybackSpeed, Mode=TwoWay}" 
+                                        Style="{ThemeResource BitSynthSliderStyle}" 
+                                        Height="65"
+                                        IsEnabled="{Binding ElementName=wOneVolumeToggle, Path=IsChecked}" 
+                                        Maximum="2" 
+                                        Minimum=".5" StepFrequency=".5" />
+                            </StackPanel>
+
+                            <StackPanel x:Name="wOneToggleStackOne" 
+                                        Margin="0,0,5,0">
+                                <ToggleButton x:Name="wOneVolumeToggle" 
+                                              IsThreeState="True" 
+                                              Click="VolumeToggle_Click"
+                                              Style="{ThemeResource VolumeToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/w1-shape.png" />
+                                </ToggleButton>
+                                <ToggleButton x:Name="wOneLoopToggle" 
+                                              IsEnabled="{Binding ElementName=wOneVolumeToggle, Path=IsChecked}"
+                                              Style="{ThemeResource LoopToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                </ToggleButton>
+                            </StackPanel>
                             
-                            <BitmapIcon x:Name="wOneVolumeIcon" 
-                                        Height="28" 
-                                        Width="28"
-                                        VerticalAlignment="Top"
-                                        Opacity="0.3"
-                                        Margin="0,3,5,0" />
-                            
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-
-                                <StackPanel x:Name="wOneToggleStackOne" 
-                                            Margin="0,0,5,0">
-                                    <ToggleButton x:Name="wOneVolumeToggle" 
-                                                  IsThreeState="True" 
-                                                  Click="VolumeToggle_Click"
-                                                  Style="{ThemeResource VolumeToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/w1-shape.png" />
-                                    </ToggleButton>
-                                    <ToggleButton x:Name="wOneLoopToggle" 
-                                                  Style="{ThemeResource LoopToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
-                                    </ToggleButton>
-                                </StackPanel>
-
-                            </Grid>
-
                             <!-- soundbank W2 -->
-                            <BitmapIcon x:Name="wTwoVolumeIcon" 
-                                        Height="28" 
-                                        Width="28"
-                                        VerticalAlignment="Top"
-                                        Opacity="0.3"
-                                        Margin="0,3,5,0" />
-                            
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
+                            <StackPanel Margin="0,3,0,0">
+                                <BitmapIcon x:Name="wTwoVolumeIcon" 
+                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
+                                            Height="28" 
+                                            Width="28"
+                                            VerticalAlignment="Top"
+                                            Margin="0,0,0,17" />
+                                <controls:ToggleIcon x:Name="wTwoPitchToggleIcon"
+                                                     Height="28" 
+                                                     Width="28"
+                                                     UriSource="/Assets/PixArt/pitch.png"
+                                                     Margin="0,0,0,4" />
+                                <Slider Value="{x:Bind soundPlayer.WTwoPlaybackSpeed, Mode=TwoWay}" 
+                                        Style="{ThemeResource BitSynthSliderStyle}" 
+                                        Height="65"
+                                        IsEnabled="{Binding ElementName=wTwoVolumeToggle, Path=IsChecked}" 
+                                        Maximum="2" 
+                                        Minimum=".5" StepFrequency=".5" />
+                            </StackPanel>
 
-                                <StackPanel x:Name="wTwoToggleStackOne" 
-                                            Margin="0,0,5,0">
-                                    <ToggleButton x:Name="wTwoVolumeToggle" 
-                                                  IsThreeState="True" 
-                                                  Click="VolumeToggle_Click"
-                                                  Style="{ThemeResource VolumeToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/w2-shape.png" />
-                                    </ToggleButton>
-                                    <ToggleButton x:Name="wTwoLoopToggle" 
-                                                  Style="{ThemeResource LoopToggleLarge}">
-                                        <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
-                                    </ToggleButton>
-                                </StackPanel>
-
-                            </Grid>
-                            
+                            <StackPanel x:Name="wTwoToggleStackOne" 
+                                        Margin="0,0,5,0">
+                                <ToggleButton x:Name="wTwoVolumeToggle" 
+                                              IsThreeState="True" 
+                                              Click="VolumeToggle_Click"
+                                              Style="{ThemeResource VolumeToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/w2-shape.png" />
+                                </ToggleButton>
+                                <ToggleButton x:Name="wTwoLoopToggle" 
+                                              IsEnabled="{Binding ElementName=wTwoVolumeToggle, Path=IsChecked}"
+                                              Style="{ThemeResource LoopToggleLarge}">
+                                    <BitmapIcon UriSource="/Assets/PixArt/loop.png" />
+                                </ToggleButton>
+                            </StackPanel>
                         </StackPanel>
                     </Grid>
 
@@ -457,11 +461,12 @@
 
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel>
-                                    <ToggleButton x:Name="delayToggle" 
+                                    <ToggleButton x:Name="echoToggle" 
                                                   Height="38" 
                                                   Padding="5" 
                                                   HorizontalAlignment="Center" 
-                                                  Click="DelayToggleButton_Click">
+                                                  Checked="EffectToggle_Checked"
+                                                  Unchecked="EffectToggle_Unchecked">
                                         <StackPanel Orientation="Horizontal">
                                             <BitmapIcon UriSource="/Assets/PixArt/effects-delay.png" />
                                             <BitmapIcon UriSource="/Assets/PixArt/effects-delay-title.png"
@@ -471,22 +476,26 @@
 
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <StackPanel>
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-delay-time.png" 
-                                                        Height="15" Margin="0,0,0,12" />
+                                            <controls:ToggleIcon x:Name="echoDelayIcon" 
+                                                                 UriSource="/Assets/PixArt/effects-delay-time.png" 
+                                                                 Height="15" 
+                                                                 Margin="0,0,0,12" />
                                             <Slider Value="{x:Bind soundPlayer.EchoEffect.Delay, Mode=TwoWay}" 
                                                     Style="{ThemeResource BitSynthSliderStyle}" 
-                                                    IsEnabled="{Binding ElementName=delayToggle, Path=IsChecked}"
+                                                    IsEnabled="{Binding ElementName=echoToggle, Path=IsChecked}"
                                                     Maximum="{ThemeResource EchoDelayMax}"  
                                                     Minimum="{ThemeResource EchoDelayMin}" />
 
                                         </StackPanel>
 
                                         <StackPanel>
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-delay-release.png" 
-                                                        Height="15" Margin="0,0,0,12" />
+                                            <controls:ToggleIcon x:Name="echoFeedbackIcon" 
+                                                                 UriSource="/Assets/PixArt/effects-delay-release.png" 
+                                                                 Height="15" 
+                                                                 Margin="0,0,0,12" />
                                             <Slider Value="{x:Bind soundPlayer.EchoEffect.Feedback, Mode=TwoWay}" 
                                                     Style="{ThemeResource BitSynthSliderStyle}" 
-                                                    IsEnabled="{Binding ElementName=delayToggle, Path=IsChecked}"
+                                                    IsEnabled="{Binding ElementName=echoToggle, Path=IsChecked}"
                                                     StepFrequency=".1" Maximum="{ThemeResource EchoFeedbackMax}" 
                                                     Minimum="{ThemeResource EchoFeedbackMin}" />
 
@@ -499,7 +508,8 @@
                                                   Height="38" 
                                                   Padding="5" 
                                                   Margin="15,0,0,0" 
-                                                  Click="ReverbToggle_Click">
+                                                  Checked="EffectToggle_Checked"
+                                                  Unchecked="EffectToggle_Unchecked">
                                         <StackPanel Orientation="Horizontal">
                                             <BitmapIcon UriSource="/Assets/PixArt/effects-reverb.png" />
                                             <BitmapIcon UriSource="/Assets/PixArt/effects-reverb-title.png"
@@ -509,8 +519,10 @@
 
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                                         <StackPanel>
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-reverb-decay.png" 
-                                                        Height="15" Margin="0,0,0,12" />
+                                            <controls:ToggleIcon x:Name="reverbDecayIcon" 
+                                                                 UriSource="/Assets/PixArt/effects-reverb-decay.png" 
+                                                                 Height="15" 
+                                                                 Margin="0,0,0,12" />
                                             <Slider Value="{x:Bind soundPlayer.ReverbEffect.DecayTime, Mode=TwoWay}" 
                                                     Style="{ThemeResource BitSynthSliderStyle}" 
                                                     IsEnabled="{Binding ElementName=reverbToggle, Path=IsChecked}" 
@@ -520,8 +532,10 @@
                                         </StackPanel>
 
                                         <StackPanel>
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-reverb-density.png" 
-                                                        Height="15" Margin="0,0,0,12" />
+                                            <controls:ToggleIcon x:Name="reverbDensityIcon" 
+                                                                 UriSource="/Assets/PixArt/effects-reverb-density.png" 
+                                                                 Height="15" 
+                                                                 Margin="0,0,0,12" />
                                             <Slider Value="{x:Bind soundPlayer.ReverbEffect.Density, Mode=TwoWay}" 
                                                     Style="{ThemeResource BitSynthSliderStyle}" IsEnabled="{Binding ElementName=reverbToggle, Path=IsChecked}" 
                                                     Maximum="{ThemeResource ReverbDensityMax}" 
@@ -530,8 +544,10 @@
                                         </StackPanel>
 
                                         <StackPanel>
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-reverb-gain.png" 
-                                                        Height="15" Margin="0,0,0,12" />
+                                            <controls:ToggleIcon x:Name="reverbGainIcon" 
+                                                                 UriSource="/Assets/PixArt/effects-reverb-gain.png" 
+                                                                 Height="15" 
+                                                                 Margin="0,0,0,12" />
                                             <Slider Value="{x:Bind soundPlayer.ReverbEffect.ReverbGain, Mode=TwoWay}" 
                                                     Style="{ThemeResource BitSynthSliderStyle}" 
                                                     IsEnabled="{Binding ElementName=reverbToggle, Path=IsChecked}" 
@@ -539,8 +555,6 @@
                                                     Minimum="{ThemeResource ReverbGainMin}" />
 
                                         </StackPanel>
-
-                                     
                                     </StackPanel>
 
 

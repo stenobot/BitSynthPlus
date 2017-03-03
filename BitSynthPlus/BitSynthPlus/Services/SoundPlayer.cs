@@ -26,8 +26,6 @@ namespace BitSynthPlus.Services
         // main audio graph and output node
         private AudioGraph graph;
 
-        //private AudioSubmixNode submixNode;
-
         private AudioDeviceOutputNode deviceOutputNode;
 
         // dictionary of file-based input nodes
@@ -44,42 +42,94 @@ namespace BitSynthPlus.Services
         private const double VOLUME_HIGH = 1.0;
         private const double VOLUME_MEDIUM = 0.3;
 
-        private double masterVolume;
-        private EchoEffectDefinition echoEffect;
-        private ReverbEffectDefinition reverbEffect;
+        private double _masterVolume;
+        private EchoEffectDefinition _echoEffect;
+        private ReverbEffectDefinition _reverbEffect;
+
+        private double _pOnePlaybackSpeed;
+        private double _pTwoPlaybackSpeed;
+        private double _wOnePlaybackSpeed;
+        private double _wTwoPlaybackSpeed;
 
 
         public double MasterVolume
         {
-            get { return masterVolume; }
+            get { return _masterVolume; }
             set
             {
-                masterVolume = value;
-                OnPropertyChanged(nameof(MasterVolume));
+                _masterVolume = value;
+                ChangeMasterVolume(_masterVolume);
+            }
+        }
 
-                ChangeMasterVolume(masterVolume);
+        public double POnePlaybackSpeed
+        {
+            get { return _pOnePlaybackSpeed; }
+            set
+            {
+                _pOnePlaybackSpeed = value;
+                ChangePlaybackSpeed(InputNodesList.IndexOf(POneInputNodes), _pOnePlaybackSpeed);
+            }
+        }
+
+        public double PTwoPlaybackSpeed
+        {
+            get { return _pTwoPlaybackSpeed; }
+            set
+            {
+                _pTwoPlaybackSpeed = value;
+                ChangePlaybackSpeed(InputNodesList.IndexOf(PTwoInputNodes), _pTwoPlaybackSpeed);
+            }
+        }
+
+        public double WOnePlaybackSpeed
+        {
+            get { return _wOnePlaybackSpeed; }
+            set
+            {
+                _wOnePlaybackSpeed = value;
+                ChangePlaybackSpeed(InputNodesList.IndexOf(WOneInputNodes), _wOnePlaybackSpeed);
+            }
+        }
+
+        public double WTwoPlaybackSpeed
+        {
+            get { return _wTwoPlaybackSpeed; }
+            set
+            {
+                _wTwoPlaybackSpeed = value;
+                ChangePlaybackSpeed(InputNodesList.IndexOf(WTwoInputNodes), _wTwoPlaybackSpeed);
             }
         }
 
         public EchoEffectDefinition EchoEffect
         {
-            get { return echoEffect; }
+            get { return _echoEffect; }
             set
             {
-                echoEffect = value;
-                OnPropertyChanged(nameof(EchoEffect));
+                _echoEffect = value;
             }
         }
 
         public ReverbEffectDefinition ReverbEffect
         {
-            get { return reverbEffect; }
+            get { return _reverbEffect; }
             set
             {
-                reverbEffect = value;
-                OnPropertyChanged(nameof(ReverbEffect));
+                _reverbEffect = value;
             }
         }
+
+        public SoundPlayer()
+        {
+            _masterVolume = masterVolumeDefaultVal;
+            _pOnePlaybackSpeed = 1;
+            _pTwoPlaybackSpeed = 1;
+            _wOnePlaybackSpeed = 1;
+            _wTwoPlaybackSpeed = 1;
+        }
+
+
 
         public void ChangeIndividualVolume(bool? pOneVolumeToggle, bool? pTwoVolumeToggle, bool? wOneVolumeToggle, bool? wTwoVolumeToggle)
         {
@@ -115,9 +165,17 @@ namespace BitSynthPlus.Services
             }
         }
 
-        public void ChangeMasterVolume(double volume)
+        private void ChangeMasterVolume(double volume)
         {
             deviceOutputNode.OutgoingGain = volume;
+        }
+
+        private void ChangePlaybackSpeed(int soundBankIndex, double speed)
+        {
+            foreach (AudioFileInputNode inputNode in InputNodesList[soundBankIndex])
+            {
+                inputNode.PlaybackSpeedFactor = speed;
+            }
         }
 
         /// <summary>
@@ -289,10 +347,8 @@ namespace BitSynthPlus.Services
                         }
 
                     }
+
                     InitializeEffects();
-
-                    ChangeMasterVolume(masterVolumeDefaultVal);
-
                     graph.Start();
                 }
             }
@@ -300,35 +356,35 @@ namespace BitSynthPlus.Services
 
         private void InitializeEffects()
         {
-            echoEffect = new EchoEffectDefinition(graph);
-            reverbEffect = new ReverbEffectDefinition(graph);
+            _echoEffect = new EchoEffectDefinition(graph);
+            _reverbEffect = new ReverbEffectDefinition(graph);
 
-            echoEffect.Delay = echoDelayMinVal;
-            echoEffect.Feedback = echoFeedbackMinVal;
+            _echoEffect.Delay = echoDelayMinVal;
+            _echoEffect.Feedback = echoFeedbackMinVal;
 
-            reverbEffect.DecayTime = reverbDecayMinVal;
-            reverbEffect.Density = reverbDensityMinVal;
-            reverbEffect.ReverbGain = reverbGainMinVal;
+            _reverbEffect.DecayTime = reverbDecayMinVal;
+            _reverbEffect.Density = reverbDensityMinVal;
+            _reverbEffect.ReverbGain = reverbGainMinVal;
 
-            reverbEffect.WetDryMix = 50;
-            reverbEffect.ReverbDelay = 1;
-            reverbEffect.RearDelay = 1;
+            _reverbEffect.WetDryMix = 50;
+            _reverbEffect.ReverbDelay = 1;
+            _reverbEffect.RearDelay = 1;
         }
 
         public void EnableEchoEffect(bool enable = true)
         {
-            if (enable)
-                deviceOutputNode.EffectDefinitions.Add(echoEffect);
-            else
-                deviceOutputNode.EffectDefinitions.RemoveAt(deviceOutputNode.EffectDefinitions.IndexOf(echoEffect));
+            if (enable && !deviceOutputNode.EffectDefinitions.Contains(_echoEffect))
+                deviceOutputNode.EffectDefinitions.Add(_echoEffect);
+            else if (deviceOutputNode.EffectDefinitions.Contains(_echoEffect))
+                deviceOutputNode.EffectDefinitions.RemoveAt(deviceOutputNode.EffectDefinitions.IndexOf(_echoEffect));
         }
 
         public void EnableReverbEffect(bool enable = true)
         {
-            if (enable)
-                deviceOutputNode.EffectDefinitions.Add(reverbEffect);
-            else
-                deviceOutputNode.EffectDefinitions.RemoveAt(deviceOutputNode.EffectDefinitions.IndexOf(reverbEffect));
+            if (enable && !deviceOutputNode.EffectDefinitions.Contains(_reverbEffect))
+                deviceOutputNode.EffectDefinitions.Add(_reverbEffect);
+            else if (deviceOutputNode.EffectDefinitions.Contains(_reverbEffect))
+                deviceOutputNode.EffectDefinitions.RemoveAt(deviceOutputNode.EffectDefinitions.IndexOf(_reverbEffect));
 
         }
 
@@ -346,16 +402,6 @@ namespace BitSynthPlus.Services
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
 
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChangedEventArgs args = new PropertyChangedEventArgs(propertyName);
-                PropertyChanged(this, args);
-            }
-        }
     }
 }

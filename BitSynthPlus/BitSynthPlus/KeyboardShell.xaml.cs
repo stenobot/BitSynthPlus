@@ -3,23 +3,9 @@ using BitSynthPlus.DataModel;
 using BitSynthPlus.Services;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.Media;
-using Windows.Media.Audio;
-using Windows.Media.MediaProperties;
-using Windows.Media.Render;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
@@ -50,6 +36,7 @@ namespace BitSynthPlus
 
         private List<ToggleButton> VolumeToggles;
         private List<BitmapIcon> VolumeIcons;
+        private List<ToggleIcon> PitchIcons;
 
         private List<ToggleButton> AllPOneToggles;
         private List<ToggleButton> AllPTwoToggles;
@@ -62,7 +49,7 @@ namespace BitSynthPlus
         private List<Preset> Presets;
 
         SolidColorBrush accentColor = Application.Current.Resources["BitSynthAccentColorBrush"] as SolidColorBrush;
-        SolidColorBrush disabledColor = Application.Current.Resources["ToggleButtonDisabledBrush"] as SolidColorBrush;
+        SolidColorBrush disabledColor = Application.Current.Resources["BitSynthDisabledBrush"] as SolidColorBrush;
 
         Uri volumeHighIconUri = new Uri("ms-appx:///Assets/PixArt/volume-high.png");
         Uri volumeLowIconUri = new Uri("ms-appx:///Assets/PixArt/volume-low.png");
@@ -86,7 +73,7 @@ namespace BitSynthPlus
 
             InitializePresets();
 
-            masterVolumeSlider.Value = masterVolumeDefaultVal;
+            
 
             VisualStateManager.GoToState(this, "Loaded", true);
         }
@@ -118,6 +105,12 @@ namespace BitSynthPlus
             VolumeToggles.Add(pTwoVolumeToggle);
             VolumeToggles.Add(wOneVolumeToggle);
             VolumeToggles.Add(wTwoVolumeToggle);
+
+            PitchIcons = new List<ToggleIcon>();
+            PitchIcons.Add(pOnePitchToggleIcon);
+            PitchIcons.Add(pTwoPitchToggleIcon);
+            PitchIcons.Add(wOnePitchToggleIcon);
+            PitchIcons.Add(wTwoPitchToggleIcon);
 
             AllPOneToggles = new List<ToggleButton>();
             AllPOneToggles.Add(pOneVolumeToggle);
@@ -314,7 +307,7 @@ namespace BitSynthPlus
         /// </summary>
         /// <param name="volumeIcon"></param>
         /// <param name="volumeLevel"></param>
-        private void SetVolumeIcon(BitmapIcon volumeIcon, bool? volumeLevel = false)
+        private void SetIconStates(BitmapIcon volumeIcon, ToggleIcon pitchIcon, bool? volumeLevel = false)
         {
             switch (volumeLevel)
             {
@@ -323,16 +316,16 @@ namespace BitSynthPlus
                     {
                         volumeIcon.UriSource = volumeHighIconUri;
                         volumeIcon.Foreground = accentColor;
-                        volumeIcon.Opacity = 1;
-                    }                 
+                    }
+                    pitchIcon.IsEnabled = true;    
                     break;
                 case null:
                     if (volumeIcon.UriSource != volumeLowIconUri)
                     {
                         volumeIcon.UriSource = volumeLowIconUri;
                         volumeIcon.Foreground = accentColor;
-                        volumeIcon.Opacity = 0.5;
-                    }               
+                    }
+                    pitchIcon.IsEnabled = true;          
                     break;
                 case false:
                 default:
@@ -340,49 +333,15 @@ namespace BitSynthPlus
                     {
                         volumeIcon.UriSource = volumeOffIconUri;
                         volumeIcon.Foreground = disabledColor;
-                        volumeIcon.Opacity = 0.3;
-                    } 
+                    }
+                    pitchIcon.IsEnabled = false;
                     break;
             }           
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="volumeToggle"></param>
-        private void EnableOrDisableGeneralToggles(ToggleButton volumeToggle)
-        {
-            switch (volumeToggle.IsChecked)
-            {
-                case true:
-                    foreach (ToggleButton generalToggle in AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)])
-                    {
-                        if (AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)].IndexOf(generalToggle) != 0)
-                            generalToggle.IsEnabled = true;
-                    }
-                    break;
-                case null:
-                    foreach (ToggleButton generalToggle in AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)])
-                    {
-                        if (AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)].IndexOf(generalToggle) != 0)
-                            generalToggle.IsEnabled = true;
-                    }
-                    break;
-                case false:
-                default:
-                    foreach (ToggleButton generalToggle in AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)])
-                    {
-                        if (AllTogglesLists[VolumeToggles.IndexOf(volumeToggle)].IndexOf(generalToggle) != 0)
-                            generalToggle.IsEnabled = false;
-                    }
-                    break;
-            }
-        }
-
         private void VolumeToggle_Click(object sender, RoutedEventArgs e)
         {
-            ToggleButton clickedToggle = sender as ToggleButton;
+            ToggleButton clickedVolumeToggle = sender as ToggleButton;
 
             if (VolumeToggles == null || VolumeIcons == null)
                 return;
@@ -390,14 +349,12 @@ namespace BitSynthPlus
             foreach (ToggleButton volumeToggle in VolumeToggles)
             {
                 // lower toggle's level to medium volume if another toggle is high volume
-                SetVolumeToggleCheckedState(clickedToggle, volumeToggle);
+                SetVolumeToggleCheckedState(clickedVolumeToggle, volumeToggle);
 
                 // check each toggle status and set its icon
-                BitmapIcon icon = VolumeIcons[VolumeToggles.IndexOf(volumeToggle)];
-                SetVolumeIcon(icon, volumeToggle.IsChecked);
-
-                // enable all general toggles in a soundbank of the volume is on, otherwise disable
-                EnableOrDisableGeneralToggles(volumeToggle);
+                BitmapIcon volumeIcon = VolumeIcons[VolumeToggles.IndexOf(volumeToggle)];
+                ToggleIcon pitchIcon = PitchIcons[VolumeToggles.IndexOf(volumeToggle)];
+                SetIconStates(volumeIcon, pitchIcon, volumeToggle.IsChecked);
             }
 
             // adjust the volume for each soundbank
@@ -448,26 +405,70 @@ namespace BitSynthPlus
                     }
                 }
             }
-        }
 
-        private void DelayToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleButton clickedToggle = sender as ToggleButton;
 
-            if (clickedToggle.IsChecked == true)
+            soundPlayer.MasterVolume = 10;
+
+            if (preset.IsDelayOn)
+            {
+                echoToggle.IsChecked = true;
                 soundPlayer.EnableEchoEffect();
+            }
             else
+            {
+                echoToggle.IsChecked = false;
                 soundPlayer.EnableEchoEffect(false);
+            }
+
+            if (preset.IsReverbOn)
+            {
+                reverbToggle.IsChecked = true;
+                soundPlayer.EnableReverbEffect();
+            }
+            else
+            {
+                reverbToggle.IsChecked = false;
+                soundPlayer.EnableReverbEffect(false);
+            }
         }
 
-        private void ReverbToggle_Click(object sender, RoutedEventArgs e)
+
+        private void EffectToggle_Checked(object sender, RoutedEventArgs e)
         {
             ToggleButton clickedToggle = sender as ToggleButton;
 
-            if (clickedToggle.IsChecked == true)
+            if (clickedToggle.Name == "reverbToggle")
+            {
+                reverbDensityIcon.IsEnabled = true;
+                reverbGainIcon.IsEnabled = true;
+                reverbDecayIcon.IsEnabled = true;
                 soundPlayer.EnableReverbEffect();
-            else
+            } else if (clickedToggle.Name == "echoToggle")
+            {
+                echoDelayIcon.IsEnabled = true;
+                echoFeedbackIcon.IsEnabled = true;
+                soundPlayer.EnableEchoEffect();
+            }; 
+        }
+
+        private void EffectToggle_Unchecked(object sender, RoutedEventArgs e)
+        {
+            ToggleButton clickedToggle = sender as ToggleButton;
+
+            if (clickedToggle.Name == "reverbToggle")
+            {
+                reverbDensityIcon.IsEnabled = false;
+                reverbGainIcon.IsEnabled = false;
+                reverbDecayIcon.IsEnabled = false;
                 soundPlayer.EnableReverbEffect(false);
+            }
+            else if (clickedToggle.Name == "echoToggle")
+            {
+                echoDelayIcon.IsEnabled = false;
+                echoFeedbackIcon.IsEnabled = false;
+                soundPlayer.EnableEchoEffect(false);
+            };
+
         }
     }
 }

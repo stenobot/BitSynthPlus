@@ -316,6 +316,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ToggleIcon.cs" />
     <Compile Include="Controls\Key.cs" />
     <Compile Include="Controls\PresetsControl.xaml.cs">
       <DependentUpon>PresetsControl.xaml</DependentUpon>
@@ -457,6 +458,7 @@
     <Content Include="Assets\PixArt\number6.png" />
     <Content Include="Assets\PixArt\p1-shape.png" />
     <Content Include="Assets\PixArt\p2-shape.png" />
+    <Content Include="Assets\PixArt\pitch.png" />
     <Content Include="Assets\PixArt\presets-title.png" />
     <Content Include="Assets\PixArt\sounds-title.png" />
     <Content Include="Assets\PixArt\volume-high.png" />

@@ -28,107 +28,77 @@ namespace BitSynthPlus.Services
 
             allPresets = new List<Preset>();
 
-            presetOne.Name = "Lazy";
+            //PRESET ONE
+            presetOne.Name = "Default";
             presetOne.SoundBankSetIndexes = new int[,]
             {
-                {
-                    1,0,1,0
-                },
-                {
-                    2,1,0,0
-                },
-                {
-                    0,0,0,0
-                },
-                {
-                    0,0,0,0
-                }
+                {2,0},
+                {0,0},
+                {0,0},
+                {0,0}
             };
+            presetOne.IsDelayOn = false;
+            presetOne.IsReverbOn = false;
 
+            //PRESET TWO
             presetTwo.Name = "Bangin";
             presetTwo.SoundBankSetIndexes = new int[,]
             {
-                {
-                    1,0,1,0
-                },
-                {
-                    0,0,0,0
-                },
-                {
-                    2,0,1,0
-                },
-                {
-                    0,0,0,0
-                }
+                {1,1},
+                {0,0},
+                {0,0},
+                {2,0}
             };
+            presetTwo.IsDelayOn = false;
+            presetTwo.IsReverbOn = true;
 
+            //PRESET THREE
             presetThree.Name = "Funky";
             presetThree.SoundBankSetIndexes = new int[,]
             {
-                {
-                    0,0,0,0
-                },
-                {
-                    1,0,0,1
-                },
-                {
-                    1,0,1,0
-                },
-                {
-                    2,1,0,0
-                }
+                {0,0},
+                {0,0},
+                {2,1},
+                {1,1}
             };
+            presetThree.IsDelayOn = true;
+            presetThree.IsReverbOn = false;
 
+            //PRESET FOUR
             presetFour.Name = "Accident";
             presetFour.SoundBankSetIndexes = new int[,]
             {
-                {
-                    1,0,0,0
-                },
-                {
-                    1,1,0,0
-                },
-                {
-                    2,0,1,0
-                },
-                {
-                    1,0,0,0
-                }
+                {0,0},
+                {1,1},
+                {2,1},
+                {0,0}
             };
+            presetFour.IsDelayOn = true;
+            presetFour.IsReverbOn = false;
 
+            //PRESET FIVE
             presetFive.Name = "I want to believe";
             presetFive.SoundBankSetIndexes = new int[,]
             {
-                {
-                    1,1,1,1
-                },
-                {
-                    0,0,0,0
-                },
-                {
-                    2,1,1,1
-                },
-                {
-                    0,0,0,0
-                }
+                {2,0},
+                {1,0},
+                {1,0},
+                {0,0}
             };
+            presetFive.IsDelayOn = false;
+            presetFive.IsReverbOn = true;
 
+            //PRESET SIX
             presetSix.Name = "Supercommuter";
             presetSix.SoundBankSetIndexes = new int[,]
             {
-                {
-                    1,0,0,0
-                },
-                {
-                    0,0,0,0
-                },
-                {
-                    1,1,1,1
-                },
-                {
-                    2,0,0,0
-                }
+                {2,1},
+                {0,0},
+                {1,0},
+                {1,0}
             };
+            presetSix.IsDelayOn = true;
+            presetSix.IsReverbOn = false;
 
             allPresets.Add(presetOne);
             allPresets.Add(presetTwo);
