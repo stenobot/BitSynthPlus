@@ -4,7 +4,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace BitSynthPlus.Controls
 {
@@ -30,15 +29,12 @@ namespace BitSynthPlus.Controls
         }
 
 
-
-
         public event PropertyChangedEventHandler SelectedPresetChanged;
 
         void NotifySelectedPresetChanged(string info)
         {
             SelectedPresetChanged?.Invoke(this, new PropertyChangedEventArgs(info));
         }
-
 
 
         public PresetsControl()
@@ -62,10 +58,6 @@ namespace BitSynthPlus.Controls
             ToggleButton toggle = sender as ToggleButton;
 
             SelectedPreset = PresetToggles.IndexOf(toggle);
-
-            //TODO need to tell the shell that selectedpresetchanged so we can update it's soundbank values
-
-
 
             if (PresetToggles == null)
                 return;

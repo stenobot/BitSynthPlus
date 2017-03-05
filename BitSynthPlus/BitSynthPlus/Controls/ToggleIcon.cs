@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,7 +21,7 @@ namespace BitSynthPlus.Controls
             set
             {
                 SetValue(IsEnabledProperty, value);
-                ChangeIsEnabledProperty();
+                SetIsEnabled();
             }
         }
 
@@ -30,7 +31,7 @@ namespace BitSynthPlus.Controls
         }
 
 
-        private void ChangeIsEnabledProperty()
+        private void SetIsEnabled()
         {
             if (IsEnabled)
                 Foreground = whiteColor;

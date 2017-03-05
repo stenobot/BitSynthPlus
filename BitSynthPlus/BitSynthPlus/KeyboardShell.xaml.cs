@@ -9,8 +9,6 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
-
 namespace BitSynthPlus
 {
     // We are initializing a COM interface for use within the namespace
@@ -24,60 +22,65 @@ namespace BitSynthPlus
     //    void GetBuffer(out byte* buffer, out uint capacity);
     //}
 
-
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class KeyboardShell : Page
     {
         static readonly double masterVolumeDefaultVal = (double)Application.Current.Resources["MasterVolumeDefault"];
 
+        private const double pitchOctaveUpValue = 2.0;
+        private const double pitchHalfOctaveUpValue = 1.5;
+        private const double pitchNormalValue = 1.0;
+        private const double pitchOctaveDownValue = 0.5;
+
         private SoundPlayer soundPlayer;
 
+        // Lists of XAML controls
         private List<ToggleButton> VolumeToggles;
-        private List<BitmapIcon> VolumeIcons;
+        private List<ToggleButton> LoopToggles;
+        private List<Slider> PitchSliders;
+
+        // Lists of Icons
+        private List<VolumeToggleIcon> VolumeIcons;
         private List<ToggleIcon> PitchIcons;
 
-        private List<ToggleButton> AllPOneToggles;
-        private List<ToggleButton> AllPTwoToggles;
-        private List<ToggleButton> AllWOneToggles;
-        private List<ToggleButton> AllWTwoToggles;
-
-        private List<List<ToggleButton>> AllTogglesLists;
-
+        // Presets
         private PresetInitializer presetInitializer;
         private List<Preset> Presets;
 
         SolidColorBrush accentColor = Application.Current.Resources["BitSynthAccentColorBrush"] as SolidColorBrush;
         SolidColorBrush disabledColor = Application.Current.Resources["BitSynthDisabledBrush"] as SolidColorBrush;
 
-        Uri volumeHighIconUri = new Uri("ms-appx:///Assets/PixArt/volume-high.png");
-        Uri volumeLowIconUri = new Uri("ms-appx:///Assets/PixArt/volume-low.png");
-        Uri volumeOffIconUri = new Uri("ms-appx:///Assets/PixArt/volume-off.png");
-
         public KeyboardShell()
         {
             this.InitializeComponent();
         }
 
+
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             VisualStateManager.GoToState(this, "Loading", true);
 
-
             soundPlayer = new SoundPlayer();
-            await soundPlayer.InitializeSounds();
 
+            await soundPlayer.InitializeSounds();
 
             InitializeControls();
 
             InitializePresets();
 
-            
-
             VisualStateManager.GoToState(this, "Loaded", true);
+
+            // set first preset as the active preset
+            SetPresetValues(Presets[0]);
+
+            VisualStateManager.GoToState(this, "LedNormal", true);
         }
 
+
+        #region METHODS
+
+        /// <summary>
+        /// Create a new PresetInitializer object and add Presets to local Presets List
+        /// </summary>
         private void InitializePresets()
         {
             presetInitializer = new PresetInitializer();
@@ -86,19 +89,18 @@ namespace BitSynthPlus
             Presets.AddRange(presetInitializer.allPresets);
         }
 
+
+        /// <summary>
+        /// Add XAML controls to Lists so we can set values
+        /// </summary>
         private void InitializeControls()
         { 
-            VolumeIcons = new List<BitmapIcon>();
+            VolumeIcons = new List<VolumeToggleIcon>();
 
-            pOneVolumeIcon.UriSource = volumeOffIconUri;
-            pTwoVolumeIcon.UriSource = volumeOffIconUri;
-            wOneVolumeIcon.UriSource = volumeOffIconUri;
-            wTwoVolumeIcon.UriSource = volumeOffIconUri;
-
-            VolumeIcons.Add(pOneVolumeIcon);
-            VolumeIcons.Add(pTwoVolumeIcon);
-            VolumeIcons.Add(wOneVolumeIcon);
-            VolumeIcons.Add(wTwoVolumeIcon);
+            VolumeIcons.Add(pOneVolumeToggleIcon);
+            VolumeIcons.Add(pTwoVolumeToggleIcon);
+            VolumeIcons.Add(wOneVolumeToggleIcon);
+            VolumeIcons.Add(wTwoVolumeToggleIcon);
 
             VolumeToggles = new List<ToggleButton>();
             VolumeToggles.Add(pOneVolumeToggle);
@@ -106,35 +108,135 @@ namespace BitSynthPlus
             VolumeToggles.Add(wOneVolumeToggle);
             VolumeToggles.Add(wTwoVolumeToggle);
 
+            LoopToggles = new List<ToggleButton>();
+            LoopToggles.Add(pOneLoopToggle);
+            LoopToggles.Add(pTwoLoopToggle);
+            LoopToggles.Add(wOneLoopToggle);
+            LoopToggles.Add(wTwoLoopToggle);
+
             PitchIcons = new List<ToggleIcon>();
             PitchIcons.Add(pOnePitchToggleIcon);
             PitchIcons.Add(pTwoPitchToggleIcon);
             PitchIcons.Add(wOnePitchToggleIcon);
             PitchIcons.Add(wTwoPitchToggleIcon);
 
-            AllPOneToggles = new List<ToggleButton>();
-            AllPOneToggles.Add(pOneVolumeToggle);
-            AllPOneToggles.Add(pOneLoopToggle);
-
-            AllPTwoToggles = new List<ToggleButton>();
-            AllPTwoToggles.Add(pTwoVolumeToggle);
-            AllPTwoToggles.Add(pTwoLoopToggle);
-
-            AllWOneToggles = new List<ToggleButton>();
-            AllWOneToggles.Add(wOneVolumeToggle);
-            AllWOneToggles.Add(wOneLoopToggle);
-
-            AllWTwoToggles = new List<ToggleButton>();
-            AllWTwoToggles.Add(wTwoVolumeToggle);
-            AllWTwoToggles.Add(wTwoLoopToggle);
-
-            AllTogglesLists = new List<List<ToggleButton>>();
-            AllTogglesLists.Add(AllPOneToggles);
-            AllTogglesLists.Add(AllPTwoToggles);
-            AllTogglesLists.Add(AllWOneToggles);
-            AllTogglesLists.Add(AllWTwoToggles);
+            PitchSliders = new List<Slider>();
+            PitchSliders.Add(pOnePitchSlider);
+            PitchSliders.Add(pTwoPitchSlider);
+            PitchSliders.Add(wOnePitchSlider);
+            PitchSliders.Add(wTwoPitchSlider);
         }
 
+        /// <summary>
+        /// Play an audio sample
+        /// </summary>
+        /// <param name="sampleIndex">Index of the audio sample to play</param>
+        /// <param name="play">True to play, false to stop</param>
+        private void PlaySample(int sampleIndex, bool play)
+        {
+            soundPlayer.PlaySound(
+                sampleIndex, play,
+                pOneVolumeToggle.IsChecked, pOneLoopToggle.IsChecked,
+                pTwoVolumeToggle.IsChecked, pTwoLoopToggle.IsChecked,
+                wOneVolumeToggle.IsChecked, wOneLoopToggle.IsChecked,
+                wTwoVolumeToggle.IsChecked, wTwoLoopToggle.IsChecked
+                );
+        }
+
+
+        /// <summary>
+        /// Set the checked toggle state for a volume toggle 
+        /// true means volume is High, null means volume is Low, false, means volume is Off
+        /// </summary>
+        /// <param name="clickedToggle">Toggle that was clicked</param>
+        /// <param name="toggleToSet">Toggle to set volume for</param>
+        private void SetVolumeToggleCheckedState(ToggleButton clickedToggle, ToggleButton toggleToSet)
+        {
+            // if any other toggle is set to high volume, set it to low volume (IsChecked = null)
+            if (toggleToSet != clickedToggle &&
+                clickedToggle.IsChecked == true &&
+                toggleToSet.IsChecked == true)
+            {
+                toggleToSet.IsChecked = null;
+            }
+        }
+
+
+        /// <summary>
+        /// Set preset values for various controls, based on Preset argument
+        /// </summary>
+        /// <param name="preset">The Preset object, which includes various control values</param>
+        private void SetPresetValues(Preset preset)
+        {
+            // set values for all volume toggles
+            foreach (ToggleButton toggle in VolumeToggles)
+            {
+                switch (preset.SoundBankSetIndexes[VolumeToggles.IndexOf(toggle), 0])
+                {
+                    case 2:
+                        toggle.IsChecked = true;
+                        break;
+                    case 1:
+                        toggle.IsChecked = null;
+                        break;
+                    case 0:
+                    default:
+                        toggle.IsChecked = false;
+                        break;
+                }
+            }
+
+            // set values for all loop toggles
+            foreach (ToggleButton toggle in LoopToggles)
+            {
+                switch (preset.SoundBankSetIndexes[LoopToggles.IndexOf(toggle), 1])
+                {
+                    case 1:
+                        toggle.IsChecked = true;
+                        break;
+                    case 0:
+                    default:
+                        toggle.IsChecked = false;
+                        break;
+                }
+            }
+
+            // set values for all pitch sliders
+            foreach (Slider slider in PitchSliders)
+            {
+                switch (preset.SoundBankSetIndexes[PitchSliders.IndexOf(slider), 2])
+                {
+                    case 3:
+                        slider.Value = pitchOctaveUpValue;
+                        break;
+                    case 2:
+                        slider.Value = pitchHalfOctaveUpValue;
+                        break;
+                    case 0:
+                        slider.Value = pitchOctaveDownValue;
+                        break;
+                    case 1:
+                    default:
+                        slider.Value = pitchNormalValue;
+                        break;
+                }
+            }
+
+            // set effect values
+            echoToggle.IsChecked = preset.IsEchoOn;
+            echoDelaySlider.Value = preset.EchoDelayValue;
+            echoFeedbackSlider.Value = preset.EchoFeedbackValue;
+            reverbToggle.IsChecked = preset.IsReverbOn;
+            reverbDecaySlider.Value = preset.ReverbDecayValue;
+            reverbDensitySlider.Value = preset.ReverbDensityValue;
+            reverbGainSlider.Value = preset.ReverbGainValue;
+        }
+
+        #endregion
+
+
+
+        #region EVENTS
 
         private void Key_IsPressedPropertyChanged(object sender, EventArgs e)
         {
@@ -261,174 +363,89 @@ namespace BitSynthPlus
                     break;
             }
 
-
-
             if (key.IsPressed)
                 VisualStateManager.GoToState(this, "LedLit", true);
             else
                 VisualStateManager.GoToState(this, "LedNormal", true);
         }
 
-        private void PlaySample(int sampleIndex, bool play)
+        /// <summary>
+        /// For three-state toggles, Checked event gets fired when 
+        /// IsChecked changes to true
+        /// This corresponds to our High Volume state
+        /// </summary>
+        /// <param name="sender">sender as object</param>
+        /// <param name="e">event argument</param>
+        private void VolumeToggle_Checked(object sender, RoutedEventArgs e)
         {
-            soundPlayer.PlaySound(
-                sampleIndex, play,
-                pOneVolumeToggle.IsChecked, pOneLoopToggle.IsChecked,
-                pTwoVolumeToggle.IsChecked, pTwoLoopToggle.IsChecked,
-                wOneVolumeToggle.IsChecked, wOneLoopToggle.IsChecked,
-                wTwoVolumeToggle.IsChecked, wTwoLoopToggle.IsChecked
-                );
+            ToggleButton checkedToggle = sender as ToggleButton;
+
+            foreach (ToggleButton toggle in VolumeToggles)
+            {
+                // only looking for toggles other than the one that was checked
+                if (toggle == checkedToggle)
+                    continue;
+
+                // if volume state is high, change it to low (null)
+                if (toggle.IsChecked == true)
+                    toggle.IsChecked = null;               
+            }
+
+            // set volume of this sound bank to High
+            soundPlayer.ChangeSoundBankVolume(VolumeToggles.IndexOf(checkedToggle), Volume.High);
+
+            // update volume icon and pitch icon
+            VolumeIcons[VolumeToggles.IndexOf(checkedToggle)].VolumeLevel = Volume.High;
+            PitchIcons[VolumeToggles.IndexOf(checkedToggle)].IsEnabled = true;
         }
-
-
-
-
 
 
         /// <summary>
-        /// 
+        /// For three-state toggles, Unchecked event gets fired when 
+        /// IsChecked changes to false
+        /// This corresponds to our Off Volume state
         /// </summary>
-        /// <param name="clickedToggle"></param>
-        /// <param name="toggleToSet"></param>
-        private void SetVolumeToggleCheckedState(ToggleButton clickedToggle, ToggleButton toggleToSet)
+        /// <param name="sender">sender as object</param>
+        /// <param name="e">event argument</param>
+        private void VolumeToggle_Unchecked(object sender, RoutedEventArgs e)
         {
-            // if any other toggle is set to high volume, set it to low volume (IsChecked = null)
-            if (toggleToSet != clickedToggle &&
-                clickedToggle.IsChecked == true &&
-                toggleToSet.IsChecked == true)
-            {
-                toggleToSet.IsChecked = null;
-            }
+            ToggleButton uncheckedToggle = sender as ToggleButton;
+
+            // set volume of this sound bank to Off
+            soundPlayer.ChangeSoundBankVolume(VolumeToggles.IndexOf(uncheckedToggle), Volume.Off);
+
+            // update volume icon and pitch icon
+            VolumeIcons[VolumeToggles.IndexOf(uncheckedToggle)].VolumeLevel = Volume.Off;
+            PitchIcons[VolumeToggles.IndexOf(uncheckedToggle)].IsEnabled = false;
         }
-        
+
 
         /// <summary>
-        /// 
+        /// For three-state toggles, Indeterminate event gets fired when 
+        /// IsChecked changes to null
+        /// This corresponds to our Low Volume state
         /// </summary>
-        /// <param name="volumeIcon"></param>
-        /// <param name="volumeLevel"></param>
-        private void SetIconStates(BitmapIcon volumeIcon, ToggleIcon pitchIcon, bool? volumeLevel = false)
+        /// <param name="sender">sender as object</param>
+        /// <param name="e">event argument</param>
+        private void VolumeToggle_Indeterminate(object sender, RoutedEventArgs e)
         {
-            switch (volumeLevel)
-            {
-                case true:
-                    if (volumeIcon.UriSource != volumeHighIconUri)
-                    {
-                        volumeIcon.UriSource = volumeHighIconUri;
-                        volumeIcon.Foreground = accentColor;
-                    }
-                    pitchIcon.IsEnabled = true;    
-                    break;
-                case null:
-                    if (volumeIcon.UriSource != volumeLowIconUri)
-                    {
-                        volumeIcon.UriSource = volumeLowIconUri;
-                        volumeIcon.Foreground = accentColor;
-                    }
-                    pitchIcon.IsEnabled = true;          
-                    break;
-                case false:
-                default:
-                    if (volumeIcon.UriSource != volumeOffIconUri)
-                    {
-                        volumeIcon.UriSource = volumeOffIconUri;
-                        volumeIcon.Foreground = disabledColor;
-                    }
-                    pitchIcon.IsEnabled = false;
-                    break;
-            }           
+            ToggleButton indeterminatelyCheckedToggle = sender as ToggleButton;
+
+            // set volume of this sound bank to Low
+            soundPlayer.ChangeSoundBankVolume(VolumeToggles.IndexOf(indeterminatelyCheckedToggle), Volume.Low);
+
+            // update volume icon and pitch icon
+            VolumeIcons[VolumeToggles.IndexOf(indeterminatelyCheckedToggle)].VolumeLevel = Volume.Low;
+            PitchIcons[VolumeToggles.IndexOf(indeterminatelyCheckedToggle)].IsEnabled = true;
         }
 
-        private void VolumeToggle_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleButton clickedVolumeToggle = sender as ToggleButton;
-
-            if (VolumeToggles == null || VolumeIcons == null)
-                return;
-
-            foreach (ToggleButton volumeToggle in VolumeToggles)
-            {
-                // lower toggle's level to medium volume if another toggle is high volume
-                SetVolumeToggleCheckedState(clickedVolumeToggle, volumeToggle);
-
-                // check each toggle status and set its icon
-                BitmapIcon volumeIcon = VolumeIcons[VolumeToggles.IndexOf(volumeToggle)];
-                ToggleIcon pitchIcon = PitchIcons[VolumeToggles.IndexOf(volumeToggle)];
-                SetIconStates(volumeIcon, pitchIcon, volumeToggle.IsChecked);
-            }
-
-            // adjust the volume for each soundbank
-            soundPlayer.ChangeIndividualVolume(pOneVolumeToggle.IsChecked,
-                pTwoVolumeToggle.IsChecked,
-                wOneVolumeToggle.IsChecked,
-                wTwoVolumeToggle.IsChecked);
-        }
-
-
-
+ 
         private void PresetsControl_SelectedPresetChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             foreach (Preset preset in Presets)
             {
                 if (Presets.IndexOf(preset) == presetsControl.SelectedPreset)
-                {
                     SetPresetValues(preset);
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="preset"></param>
-        private void SetPresetValues(Preset preset)
-        {
-            foreach (List<ToggleButton> togglesList in AllTogglesLists)
-            {
-                foreach (ToggleButton toggle in togglesList)
-                {
-                    switch (preset.SoundBankSetIndexes[AllTogglesLists.IndexOf(togglesList), togglesList.IndexOf(toggle)])
-                    {
-                        case 2:
-                            toggle.IsChecked = true;
-                            break;
-                        case 1:
-                            if (toggle.Name.Contains("Volume"))
-                                toggle.IsChecked = null;
-                            else
-                                toggle.IsChecked = true;
-                            break;
-                        case 0:
-                            toggle.IsChecked = false;
-                            break;
-                    }
-                }
-            }
-
-
-            soundPlayer.MasterVolume = 10;
-
-            if (preset.IsDelayOn)
-            {
-                echoToggle.IsChecked = true;
-                soundPlayer.EnableEchoEffect();
-            }
-            else
-            {
-                echoToggle.IsChecked = false;
-                soundPlayer.EnableEchoEffect(false);
-            }
-
-            if (preset.IsReverbOn)
-            {
-                reverbToggle.IsChecked = true;
-                soundPlayer.EnableReverbEffect();
-            }
-            else
-            {
-                reverbToggle.IsChecked = false;
-                soundPlayer.EnableReverbEffect(false);
             }
         }
 
@@ -451,6 +468,7 @@ namespace BitSynthPlus
             }; 
         }
 
+
         private void EffectToggle_Unchecked(object sender, RoutedEventArgs e)
         {
             ToggleButton clickedToggle = sender as ToggleButton;
@@ -468,7 +486,8 @@ namespace BitSynthPlus
                 echoFeedbackIcon.IsEnabled = false;
                 soundPlayer.EnableEchoEffect(false);
             };
-
         }
     }
+
+    #endregion
 }

@@ -321,6 +321,8 @@
     <Compile Include="Controls\PresetsControl.xaml.cs">
       <DependentUpon>PresetsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\VolumeEnums.cs" />
+    <Compile Include="Controls\VolumeToggleIcon.cs" />
     <Compile Include="DataModel\Preset.cs" />
     <Compile Include="DataModel\SoundBank.cs" />
     <Compile Include="KeyboardShell.xaml.cs">

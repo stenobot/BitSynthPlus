@@ -1,4 +1,5 @@
-﻿using BitSynthPlus.DataModel;
+﻿using BitSynthPlus.Controls;
+using BitSynthPlus.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -40,7 +41,8 @@ namespace BitSynthPlus.Services
         private ObservableCollection<ObservableCollection<AudioFileInputNode>> InputNodesList;
 
         private const double VOLUME_HIGH = 1.0;
-        private const double VOLUME_MEDIUM = 0.3;
+        private const double VOLUME_LOW = 0.3;
+        private const double VOLUME_OFF = 0.0;
 
         private double _masterVolume;
         private EchoEffectDefinition _echoEffect;
@@ -130,40 +132,30 @@ namespace BitSynthPlus.Services
         }
 
 
-
-        public void ChangeIndividualVolume(bool? pOneVolumeToggle, bool? pTwoVolumeToggle, bool? wOneVolumeToggle, bool? wTwoVolumeToggle)
+        /// <summary>
+        /// Change volume of an individual SoundBank
+        /// </summary>
+        /// <param name="index">The index of the SoundBank to change</param>
+        /// <param name="volume">The volume level (High, Low, or Off)</param>
+        public void ChangeSoundBankVolume(int index, Volume volume)
         {
-            bool? currentBool = false;
-
-            for (var i = 0; i < InputNodesList.Count; i++)
+            foreach (AudioFileInputNode inputNode in InputNodesList[index])
             {
-                switch (i)
+                switch (volume)
                 {
-                    case 0:
-                        currentBool = pOneVolumeToggle;
-                        break;
-                    case 1:
-                        currentBool = pTwoVolumeToggle;
-                        break;
-                    case 2:
-                        currentBool = wOneVolumeToggle;
-                        break;
-                    case 3:
-                        currentBool = wTwoVolumeToggle;
-                        break;
-                }
-
-                foreach (AudioFileInputNode inputNode in InputNodesList[i])
-                {
-                    if (currentBool == null)
-                        inputNode.OutgoingGain = VOLUME_MEDIUM;
-                    else if (currentBool == true)
+                    case Volume.High:
                         inputNode.OutgoingGain = VOLUME_HIGH;
-                    else
-                        inputNode.OutgoingGain = 0.0;
-                }
+                        break;
+                    case Volume.Low:
+                        inputNode.OutgoingGain = VOLUME_LOW;
+                        break;
+                    case Volume.Off:
+                        inputNode.OutgoingGain = VOLUME_OFF;
+                        break;
+                }              
             }
         }
+
 
         private void ChangeMasterVolume(double volume)
         {
