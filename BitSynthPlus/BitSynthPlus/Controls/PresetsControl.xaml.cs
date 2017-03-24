@@ -14,6 +14,8 @@ namespace BitSynthPlus.Controls
     {
         private List<ToggleButton> PresetToggles;
 
+        private ToggleButton _lastCheckedToggle;
+
         public static readonly DependencyProperty SelectedPresetProperty =
           DependencyProperty.Register("SelectedPreset", typeof(int), typeof(PresetsControl), new PropertyMetadata(int.MaxValue));
 
@@ -39,7 +41,6 @@ namespace BitSynthPlus.Controls
 
         public PresetsControl()
         {
-
             this.InitializeComponent();
 
             PresetToggles = new List<ToggleButton>();

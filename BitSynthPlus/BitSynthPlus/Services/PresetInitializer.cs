@@ -102,8 +102,8 @@ namespace BitSynthPlus.Services
                 "I Want To Believe",
                 new int[,]
                 {
-                    {2,0,1},
-                    {1,0,3},
+                    {1,0,1},
+                    {2,0,3},
                     {1,0,1},
                     {0,0,1}
                 },

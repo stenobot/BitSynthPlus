@@ -6,9 +6,10 @@
     xmlns:controls="using:BitSynthPlus.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
     mc:Ignorable="d">
 
-    <Grid Background="Gray">
+    <Grid Background="{ThemeResource DarkAltBackgroundBrush}">
 
         <VisualStateManager.VisualStateGroups>
 
@@ -28,97 +29,168 @@
 
             <VisualStateGroup x:Name="WidthStates">
 
-                <!-- show 24 white keys -->
-                <VisualState x:Name="ExtraLargeWidth">
+                <!-- EXTRA LARGE WIDTH -->
+                <!--<VisualState x:Name="ExtraLargeWidth">
                     <VisualState.StateTriggers>
+                        --><!-- KEYS - show 24 white keys --><!--
                         <AdaptiveTrigger MinWindowWidth="{ThemeResource ExtraLargeWidthBreakpoint}" />
                     </VisualState.StateTriggers>
-                </VisualState>
+                    <VisualState.Setters>
+                        --><!-- EFFECTS --><!--
+                        <Setter Target="effectsGrid.(RelativePanel.RightOf)" Value="soundBanksGrid" />
+                        <Setter Target="reverbEffectsPanel.(RelativePanel.RightOf)" Value="echoEffectsPanel" />
+                    </VisualState.Setters>
+                </VisualState>-->
 
 
-                <!-- show 18 white keys -->
+                <!-- LARGE WIDTH -->
                 <VisualState x:Name="LargeWidth">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{ThemeResource LargeWidthBreakpoint}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <!-- KEYS - show 18 white keys -->
                         <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
+                        <!-- PRESETS -->
                         <Setter Target="presetsGrid.Width" Value="300" />
+                        <!-- BKG IMAGE -->
                         <Setter Target="controlsBackgroundImage.Width" Value="1260" />
+                        <!-- EFFECTS -->
+                        <Setter Target="effectsGrid.(RelativePanel.RightOf)" Value="soundBanksGrid" />
+                        <Setter Target="reverbEffectsPanel.(RelativePanel.RightOf)" Value="echoEffectsPanel" />
                     </VisualState.Setters>
                 </VisualState>
 
-                <!-- show 14 white keys -->
+                <!-- MEDIUM WIDTH -->
                 <VisualState x:Name="MediumWidth">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="{ThemeResource MediumWidthBreakpoint}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <!-- KEYS - show 14 white keys -->
                         <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
+                        <!-- PRESETS -->
                         <Setter Target="presetsGrid.Width" Value="200" />
+                        <Setter Target="presetsTitleIcon.Margin" Value="4,0,0,10" />
+                        <!-- BKG IMAGE -->
                         <Setter Target="controlsBackgroundImage.Width" Value="980" />
+                        <!-- SOUND BANK -->
                         <Setter Target="pOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
                         <Setter Target="pTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
                         <Setter Target="wOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
                         <Setter Target="wTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
-                        <Setter Target="pOneLoopToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="pOneEffectOneToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="pOneEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="pTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="pTwoEffectOneToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="pTwoEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="wOneLoopToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="wOneEffectOneToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="wOneEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="wTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="wTwoEffectOneToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
-                        <Setter Target="wTwoEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleMedium}" />
+                        <Setter Target="pOneLoopToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
+                        <Setter Target="pTwoLoopToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
+                        <Setter Target="wOneLoopToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
+                        <Setter Target="wTwoLoopToggle.Style" Value="{ThemeResource VolumeToggleMedium}" />
+                        <!-- LED -->
+                        <Setter Target="ledGrid.Margin" Value="15,15,0,0" />
+                        <!-- EFFECTS -->
+                        <Setter Target="effectsTitleIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="effectsGrid.(RelativePanel.RightOf)" Value="soundBanksGrid" />
+                        <Setter Target="effectsGrid.Margin" Value="30,6,0,0" />
+                        <Setter Target="reverbEffectsPanel.(RelativePanel.Below)" Value="echoEffectsPanel" />
+                        <Setter Target="reverbEffectsPanel.Margin" Value="0,12,0,0" />
+                        <Setter Target="echoEffectsPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="reverbEffectsPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="echoToggleTitle.Visibility" Value="Collapsed" />
+                        <Setter Target="echoToggleIcon.Height" Value="20" />
+                        <Setter Target="echoToggle.Margin" Value="0,17,0,0" />
+                        <Setter Target="echoToggle.Width" Value="58" />
+                        <Setter Target="echoToggle.Height" Value="69" />
+                        <Setter Target="reverbToggleTitle.Visibility" Value="Collapsed" />
+                        <Setter Target="reverbToggleIcon.Height" Value="20" />
+                        <Setter Target="reverbToggle.Margin" Value="0,17,0,0" />
+                        <Setter Target="reverbToggle.Width" Value="58" />
+                        <Setter Target="reverbToggle.Height" Value="112" />
+                        <Setter Target="echoEffectSlidersPanel.Orientation" Value="Vertical" />
+                        <Setter Target="echoEffectSlidersPanel.Margin" Value="0,0,0,0" />
+                        <Setter Target="reverbEffectSlidersPanel.Orientation" Value="Vertical" />
+                        <Setter Target="reverbEffectSlidersPanel.Margin" Value="0,0,0,0" />
+                        <Setter Target="echoDelaySliderPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="echoFeedbackSliderPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="reverbDecaySliderPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="reverbDensitySliderPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="reverbGainSliderPanel.Orientation" Value="Horizontal" />
+                        <Setter Target="echoDelaySlider.Style" Value="{ThemeResource BitSynthHorizontalSliderStyle}" />
+                        <Setter Target="echoFeedbackSlider.Style" Value="{ThemeResource BitSynthHorizontalSliderStyle}" />
+                        <Setter Target="reverbDecaySlider.Style" Value="{ThemeResource BitSynthHorizontalSliderStyle}" />
+                        <Setter Target="reverbDensitySlider.Style" Value="{ThemeResource BitSynthHorizontalSliderStyle}" />
+                        <Setter Target="reverbGainSlider.Style" Value="{ThemeResource BitSynthHorizontalSliderStyle}" />
+                        <Setter Target="echoDelayIcon.Width" Value="55" />
+                        <Setter Target="echoDelayIcon.Margin" Value="0,8,0,0" />
+                        <Setter Target="echoFeedbackIcon.Width" Value="55" />
+                        <Setter Target="echoFeedbackIcon.Margin" Value="0,8,0,0" />
+                        <Setter Target="reverbDecayIcon.Width" Value="55" />
+                        <Setter Target="reverbDecayIcon.Margin" Value="0,8,0,0" />
+                        <Setter Target="reverbDensityIcon.Width" Value="55" />
+                        <Setter Target="reverbDensityIcon.Margin" Value="0,8,0,0" />
+                        <Setter Target="reverbGainIcon.Width" Value="55" />
+                        <Setter Target="reverbGainIcon.Margin" Value="0,8,0,0" />
                     </VisualState.Setters>
                 </VisualState>
 
-                <!-- show 7 white keys -->
+                <!-- SMALL WIDTH -->
                 <VisualState x:Name="SmallWidth">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowWidth="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
+                        <!-- KEYS - show 7 white keys -->
                         <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveThree.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveSix.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
-                        <Setter Target="presetsGrid.Width" Value="100" />
+                        <!-- LOGO -->
+                        <Setter Target="logoTitleIcon.Margin" Value="4,10,10,10" />
+                        <!-- MASTER VOLUME -->
+                        <Setter Target="masterVolumePanel.Visibility" Value="Collapsed" />
+                        <!-- PRESETS -->
+                        <Setter Target="presetsGrid.Width" Value="150" />
+                        <Setter Target="presetsGrid.Margin" Value="10,4,0,0" />
                         <Setter Target="presetsTitleIcon.Height" Value="10" />
-                        <Setter Target="soundsTitleIcon.Height" Value="10" />
+                        <Setter Target="presetsTitleIcon.Margin" Value="4,4,0,4" />
+                        <!-- BKG IMAGE -->
                         <Setter Target="controlsBackgroundImage.Width" Value="486" />
+                        <!-- LED -->
                         <Setter Target="ledGrid.Visibility" Value="Collapsed" />
+                        <!-- EFFECTS -->
+                        <Setter Target="effectsGrid.(RelativePanel.Below)" Value="soundBanksGrid" />
+                        <Setter Target="effectsGrid.Margin" Value="14,6,0,0" />
+                        <Setter Target="effectsTitleIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="reverbEffectsPanel.(RelativePanel.RightOf)" Value="echoEffectsPanel" />
+                        <Setter Target="reverbEffectsPanel.Margin" Value="0,0,0,0" />
+                        <Setter Target="echoEffectSlidersPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="reverbEffectSlidersPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="echoToggle.Width" Value="222" />
+                        <Setter Target="reverbToggle.Width" Value="224" />
+                        <Setter Target="reverbToggle.Margin" Value="13,0,0,0" />
+                        <!-- SOUND BANKS -->
+                        <Setter Target="soundBanksGrid.Margin" Value="10,25,0,0" />
+                        <Setter Target="soundsTitleIcon.Height" Value="10" />
+                        <Setter Target="soundsTitleIcon.Margin" Value="0,0,0,10" />
                         <Setter Target="pOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
                         <Setter Target="pTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
                         <Setter Target="wOneVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
                         <Setter Target="wTwoVolumeToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
-                        <Setter Target="pOneLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="pOneEffectOneToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="pOneEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="pTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="pTwoEffectOneToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="pTwoEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wOneLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wOneEffectOneToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wOneEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wTwoLoopToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wTwoEffectOneToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="wTwoEffectTwoToggle.Style" Value="{ThemeResource GeneralToggleSmall}" />
-                        <Setter Target="pOneVolumeIcon.Visibility" Value="Collapsed" />
-                        <Setter Target="pTwoVolumeIcon.Visibility" Value="Collapsed" />
-                        <Setter Target="wOneVolumeIcon.Visibility" Value="Collapsed" />
-                        <Setter Target="wTwoVolumeIcon.Visibility" Value="Collapsed" />
-                        <Setter Target="soundsTitleIcon.Margin" Value="0,0,0,10" />
+                        <Setter Target="pOneLoopToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="pTwoLoopToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="wOneLoopToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="wTwoLoopToggle.Style" Value="{ThemeResource VolumeToggleSmall}" />
+                        <Setter Target="pOnePitchPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="pTwoPitchPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="wOnePitchPanel.Visibility" Value="Collapsed" />
+                        <Setter Target="wTwoPitchPanel.Visibility" Value="Collapsed" />
+                        <!-- AD -->
+                        <Setter Target="adControl.Width" Value="320" />
+                        <Setter Target="adControl.Height" Value="50" />
                     </VisualState.Setters>
                 </VisualState>
 
@@ -126,55 +198,26 @@
 
             <VisualStateGroup x:Name="HeightStates">
 
-                <VisualState x:Name="ExtraLargeHeight">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="{ThemeResource ExtraLargeHeightBreakpoint}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="controlsGrid.Height" Value="400" />
-                        <Setter Target="presetsGrid.Height" Value="400" />
-                    </VisualState.Setters>
-                </VisualState>
-
+                <!-- LARGE HEIGHT -->
                 <VisualState x:Name="LargeHeight">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowHeight="{ThemeResource LargeHeightBreakpoint}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="controlsGrid.Height" Value="250" />
-                        <Setter Target="presetsGrid.Height" Value="250" />
-                       
+                        <Setter Target="adGrid.Visibility" Value="Visible" />
                     </VisualState.Setters>
                 </VisualState>
 
-                <VisualState x:Name="MediumHeight">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowHeight="{ThemeResource MediumHeightBreakpoint}" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="controlsGrid.Height" Value="160" />
-                        <Setter Target="presetsGrid.Height" Value="160" />
-                        <Setter Target="presetsTitleIcon.Margin" Value="15,0,0,5" />
-                        <Setter Target="logoTitleIcon.Margin" Value="15,15,0,10" />
-                        <Setter Target="pOneVolumeToggle.Height" Value="35" />
-                        <Setter Target="pTwoVolumeToggle.Height" Value="35" />
-                        <Setter Target="wOneVolumeToggle.Height" Value="35" />
-                        <Setter Target="wTwoVolumeToggle.Height" Value="35" />
-                    </VisualState.Setters>
-                </VisualState>
-
+                <!-- SMALL HEIGHT -->
                 <VisualState x:Name="SmallHeight">
                     <VisualState.StateTriggers>
                         <AdaptiveTrigger MinWindowHeight="0" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        <Setter Target="controlsGrid.Height" Value="100" />
-                        <Setter Target="presetsGrid.Height" Value="100" />
-                        <Setter Target="presetsTitleIcon.Visibility" Value="Collapsed" />
-                        <Setter Target="logoTitleIcon.Visibility" Value="Collapsed" />
-                        <Setter Target="soundsTitleIcon.Visibility" Value="Collapsed" />
+                        <Setter Target="adGrid.Visibility" Value="Collapsed" />
                     </VisualState.Setters>
                 </VisualState>
+
             </VisualStateGroup>
 
             <VisualStateGroup x:Name="LedStates">
@@ -193,9 +236,17 @@
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
+
+            <VisualStateGroup x:Name="AdStates">
+                <VisualState x:Name="ShowAds" />
+                <VisualState x:Name="HideAds">
+                    <VisualState.Setters>
+                        <Setter Target="adGrid.Visibility" Value="Collapsed" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-
-
+        
         <Grid x:Name="contentGrid" 
               HorizontalAlignment="Center"
               VerticalAlignment="Center" 
@@ -203,9 +254,10 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
 
-            <Grid x:Name="controlsGrid">
+            <Grid x:Name="controlsGrid" Height="250">
                 <Rectangle StrokeThickness="4" 
                            Stroke="Black" 
                            Margin="-4,0,0,-4" 
@@ -214,7 +266,7 @@
                 <Image x:Name="controlsBackgroundImage" 
                        Source="/Assets/PixArt/cp-bkgd.png" 
                        Stretch="UniformToFill" 
-                       Width="1690"
+                       Width="{ThemeResource ExtraLargeWidthBreakpoint}"
                        HorizontalAlignment="Center" />
 
                 <RelativePanel>
@@ -242,12 +294,12 @@
                         <StackPanel Orientation="Horizontal"
                                     Grid.Row="1">
 
-                            <StackPanel>
+                            <StackPanel x:Name="masterVolumePanel">
                                 <BitmapIcon UriSource="/Assets/PixArt/volume-high.png" 
                                             Height="19" Margin="0,0,0,12" />
                                 <Slider x:Name="masterVolumeSlider" 
                                         Value="{x:Bind soundPlayer.MasterVolume, Mode=TwoWay}" 
-                                        Style="{ThemeResource BitSynthSliderStyle}"  
+                                        Style="{ThemeResource BitSynthVerticalSliderStyle}" 
                                         Maximum="{ThemeResource MasterVolumeMax}" />
 
                             </StackPanel>
@@ -256,7 +308,7 @@
                                 <BitmapIcon x:Name="presetsTitleIcon"  
                                             UriSource="/Assets/PixArt/presets-title.png" 
                                             Height="13" 
-                                            Margin="15,0,0,10" 
+                                            Margin="10,0,0,10" 
                                             HorizontalAlignment="Left" />
 
 
@@ -270,7 +322,7 @@
                     
                     <!-- SOUNDBANK CONTROLS -->
                     <Grid x:Name="soundBanksGrid" 
-                          Margin="20,20,0,0" 
+                          Margin="0,20,0,0" 
                           RelativePanel.RightOf="presetsGrid">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -280,13 +332,14 @@
                         <BitmapIcon x:Name="soundsTitleIcon" 
                                     UriSource="/Assets/PixArt/sounds-title.png" 
                                     Height="13" 
-                                    Margin="30,0,0,10" 
+                                    Margin="17,0,0,15" 
                                     HorizontalAlignment="Left" />
 
                         <StackPanel Orientation="Horizontal" Grid.Row="1">
 
                             <!-- soundbank P1 -->
-                            <StackPanel Margin="0,3,0,0">
+                            <StackPanel x:Name="pOnePitchPanel" 
+                                        Margin="0,3,0,0">
                                 <controls:VolumeToggleIcon x:Name="pOneVolumeToggleIcon" 
                                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
                                                            UriSource="/Assets/PixArt/volume-off.png"
@@ -303,6 +356,7 @@
                                         Value="{x:Bind soundPlayer.POnePlaybackSpeed, Mode=TwoWay}" 
                                         Style="{ThemeResource BitSynthSliderStyle}" 
                                         Height="65"
+                                        Orientation="Vertical"
                                         IsEnabled="{Binding ElementName=pOneVolumeToggle, Path=IsChecked}" 
                                         Maximum="2" 
                                         Minimum=".5" StepFrequency=".5" />
@@ -325,7 +379,8 @@
                             </StackPanel>
 
                             <!-- soundbank P2 -->
-                            <StackPanel Margin="0,3,0,0">
+                            <StackPanel x:Name="pTwoPitchPanel" 
+                                        Margin="0,3,0,0">
                                 <controls:VolumeToggleIcon x:Name="pTwoVolumeToggleIcon" 
                                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
                                                            UriSource="/Assets/PixArt/volume-off.png"
@@ -342,6 +397,7 @@
                                         Value="{x:Bind soundPlayer.PTwoPlaybackSpeed, Mode=TwoWay}" 
                                         Style="{ThemeResource BitSynthSliderStyle}" 
                                         Height="65"
+                                        Orientation="Vertical"
                                         IsEnabled="{Binding ElementName=pTwoVolumeToggle, Path=IsChecked}" 
                                         Maximum="2" 
                                         Minimum=".5" StepFrequency=".5" />
@@ -365,7 +421,8 @@
                             </StackPanel>
 
                             <!-- soundbank W1 -->
-                            <StackPanel Margin="0,3,0,0">
+                            <StackPanel x:Name="wOnePitchPanel" 
+                                        Margin="0,3,0,0">
                                 <controls:VolumeToggleIcon x:Name="wOneVolumeToggleIcon" 
                                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
                                                            UriSource="/Assets/PixArt/volume-off.png"
@@ -382,6 +439,7 @@
                                         Value="{x:Bind soundPlayer.WOnePlaybackSpeed, Mode=TwoWay}" 
                                         Style="{ThemeResource BitSynthSliderStyle}" 
                                         Height="65"
+                                        Orientation="Vertical"
                                         IsEnabled="{Binding ElementName=wOneVolumeToggle, Path=IsChecked}" 
                                         Maximum="2" 
                                         Minimum=".5" StepFrequency=".5" />
@@ -405,7 +463,8 @@
                             </StackPanel>
                             
                             <!-- soundbank W2 -->
-                            <StackPanel Margin="0,3,0,0">
+                            <StackPanel x:Name="wTwoPitchPanel" 
+                                        Margin="0,3,0,0">
                                 <controls:VolumeToggleIcon x:Name="wTwoVolumeToggleIcon" 
                                                            Foreground="{ThemeResource BitSynthDisabledBrush}"
                                                            UriSource="/Assets/PixArt/volume-off.png"
@@ -422,6 +481,7 @@
                                         Value="{x:Bind soundPlayer.WTwoPlaybackSpeed, Mode=TwoWay}" 
                                         Style="{ThemeResource BitSynthSliderStyle}" 
                                         Height="65"
+                                        Orientation="Vertical"
                                         IsEnabled="{Binding ElementName=wTwoVolumeToggle, Path=IsChecked}" 
                                         Maximum="2" 
                                         Minimum=".5" StepFrequency=".5" />
@@ -464,55 +524,59 @@
                     </Grid>
 
                     <Grid x:Name="effectsGrid" 
-                          Margin="35,20,0,0" 
-                          RelativePanel.RightOf="soundBanksGrid">
+                          Margin="50,20,0,0" >
 
                         <StackPanel>
 
                             <BitmapIcon x:Name="effectsTitleIcon"  
                                         UriSource="/Assets/PixArt/effects-title.png" 
                                         Height="13" 
-                                        Margin="16,0,0,10" 
+                                        Margin="10,0,0,15" 
                                         HorizontalAlignment="Left" />
 
-                            <StackPanel Orientation="Horizontal">
-                                <StackPanel>
+                            <RelativePanel>
+                                <StackPanel x:Name="echoEffectsPanel">
                                     <ToggleButton x:Name="echoToggle" 
                                                   Height="38" 
                                                   Padding="5" 
+                                                  VerticalAlignment="Top"
                                                   HorizontalAlignment="Center" 
                                                   Checked="EffectToggle_Checked"
                                                   Unchecked="EffectToggle_Unchecked">
                                         <StackPanel Orientation="Horizontal">
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-delay.png" />
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-delay-title.png"
+                                            <BitmapIcon x:Name="echoToggleIcon" 
+                                                        UriSource="/Assets/PixArt/effects-delay.png" Height="24"/>
+                                            <BitmapIcon x:Name="echoToggleTitle" 
+                                                        UriSource="/Assets/PixArt/effects-delay-title.png"
                                                         Margin="10,0,0,0" Height="13"/>
                                         </StackPanel>
                                     </ToggleButton>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                        <StackPanel>
+                                    <StackPanel x:Name="echoEffectSlidersPanel" 
+                                                Orientation="Horizontal" 
+                                                Margin="0,10,0,0">
+                                        
+                                        <StackPanel x:Name="echoDelaySliderPanel">
                                             <controls:ToggleIcon x:Name="echoDelayIcon" 
                                                                  UriSource="/Assets/PixArt/effects-delay-time.png" 
                                                                  Height="15" 
                                                                  Margin="0,0,0,12" />
                                             <Slider x:Name="echoDelaySlider" 
                                                     Value="{x:Bind soundPlayer.EchoEffect.Delay, Mode=TwoWay}" 
-                                                    Style="{ThemeResource BitSynthSliderStyle}" 
+                                                    Style="{ThemeResource BitSynthVerticalSliderStyle}" 
                                                     IsEnabled="{Binding ElementName=echoToggle, Path=IsChecked}"
                                                     Maximum="{ThemeResource EchoDelayMax}"  
                                                     Minimum="{ThemeResource EchoDelayMin}" />
-
                                         </StackPanel>
 
-                                        <StackPanel>
+                                        <StackPanel x:Name="echoFeedbackSliderPanel">
                                             <controls:ToggleIcon x:Name="echoFeedbackIcon" 
                                                                  UriSource="/Assets/PixArt/effects-delay-release.png" 
                                                                  Height="15" 
                                                                  Margin="0,0,0,12" />
                                             <Slider x:Name="echoFeedbackSlider"
                                                     Value="{x:Bind soundPlayer.EchoEffect.Feedback, Mode=TwoWay}" 
-                                                    Style="{ThemeResource BitSynthSliderStyle}" 
+                                                    Style="{ThemeResource BitSynthVerticalSliderStyle}" 
                                                     IsEnabled="{Binding ElementName=echoToggle, Path=IsChecked}"
                                                     StepFrequency=".1" Maximum="{ThemeResource EchoFeedbackMax}" 
                                                     Minimum="{ThemeResource EchoFeedbackMin}" />
@@ -521,56 +585,62 @@
                                     </StackPanel>
                                 </StackPanel>
 
-                                <StackPanel Margin="30,0,0,0">
+                                <StackPanel x:Name="reverbEffectsPanel" Margin="30,0,0,0">
                                     <ToggleButton x:Name="reverbToggle" 
                                                   Height="38" 
                                                   Padding="5" 
+                                                  VerticalAlignment="Top"
                                                   Margin="15,0,0,0" 
                                                   Checked="EffectToggle_Checked"
                                                   Unchecked="EffectToggle_Unchecked">
                                         <StackPanel Orientation="Horizontal">
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-reverb.png" />
-                                            <BitmapIcon UriSource="/Assets/PixArt/effects-reverb-title.png"
+                                            <BitmapIcon x:Name="reverbToggleIcon" 
+                                                        UriSource="/Assets/PixArt/effects-reverb.png" Height="24" />
+                                            <BitmapIcon x:Name="reverbToggleTitle" 
+                                                        UriSource="/Assets/PixArt/effects-reverb-title.png"
                                                         Margin="10,0,0,0" Height="13"/>
                                         </StackPanel>
                                     </ToggleButton>
 
-                                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                        <StackPanel>
+                                    <StackPanel x:Name="reverbEffectSlidersPanel" 
+                                                Orientation="Horizontal" 
+                                                Margin="0,10,0,0">
+                                        <StackPanel x:Name="reverbDecaySliderPanel">
                                             <controls:ToggleIcon x:Name="reverbDecayIcon" 
                                                                  UriSource="/Assets/PixArt/effects-reverb-decay.png" 
                                                                  Height="15" 
                                                                  Margin="0,0,0,12" />
                                             <Slider x:Name="reverbDecaySlider" 
                                                     Value="{x:Bind soundPlayer.ReverbEffect.DecayTime, Mode=TwoWay}" 
-                                                    Style="{ThemeResource BitSynthSliderStyle}" 
+                                                    Style="{ThemeResource BitSynthVerticalSliderStyle}" 
                                                     IsEnabled="{Binding ElementName=reverbToggle, Path=IsChecked}" 
                                                     Maximum="{ThemeResource ReverbDecayMax}" 
                                                     Minimum="{ThemeResource ReverbDecayMin}"  />
 
                                         </StackPanel>
 
-                                        <StackPanel>
+                                        <StackPanel x:Name="reverbDensitySliderPanel">
                                             <controls:ToggleIcon x:Name="reverbDensityIcon" 
                                                                  UriSource="/Assets/PixArt/effects-reverb-density.png" 
                                                                  Height="15" 
                                                                  Margin="0,0,0,12" />
                                             <Slider x:Name="reverbDensitySlider" 
                                                     Value="{x:Bind soundPlayer.ReverbEffect.Density, Mode=TwoWay}" 
-                                                    Style="{ThemeResource BitSynthSliderStyle}" IsEnabled="{Binding ElementName=reverbToggle, Path=IsChecked}" 
+                                                    Style="{ThemeResource BitSynthVerticalSliderStyle}" 
+                                                    IsEnabled="{Binding ElementName=reverbToggle, Path=IsChecked}" 
                                                     Maximum="{ThemeResource ReverbDensityMax}" 
                                                     Minimum="{ThemeResource ReverbDensityMin}" />
 
                                         </StackPanel>
 
-                                        <StackPanel>
+                                        <StackPanel x:Name="reverbGainSliderPanel">
                                             <controls:ToggleIcon x:Name="reverbGainIcon" 
                                                                  UriSource="/Assets/PixArt/effects-reverb-gain.png" 
                                                                  Height="15" 
                                                                  Margin="0,0,0,12" />
                                             <Slider x:Name="reverbGainSlider" 
                                                     Value="{x:Bind soundPlayer.ReverbEffect.ReverbGain, Mode=TwoWay}" 
-                                                    Style="{ThemeResource BitSynthSliderStyle}" 
+                                                    Style="{ThemeResource BitSynthVerticalSliderStyle}" 
                                                     IsEnabled="{Binding ElementName=reverbToggle, Path=IsChecked}" 
                                                     Maximum="{ThemeResource ReverbGainMax}" 
                                                     Minimum="{ThemeResource ReverbGainMin}" />
@@ -578,7 +648,7 @@
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
-                            </StackPanel>
+                            </RelativePanel>
                         </StackPanel>
                     </Grid>
                 </RelativePanel>
@@ -776,6 +846,28 @@
 
                 </StackPanel>
 
+            </Grid>
+
+            <Grid x:Name="adGrid" 
+                  Grid.Row="2"   
+                  Margin="0,30,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <UI:AdControl x:Name="adControl" 
+                              ApplicationId="{StaticResource ApplicationId}"
+                              AdUnitId="{StaticResource AdUnitId}"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Center"
+                              Height="90"
+                              Width="728"/>
+                
+                <HyperlinkButton Content="Remove ads" 
+                                 Grid.Row="1" 
+                                 Click="RemoveAdsHyperlinkButton_Click"
+                                 HorizontalAlignment="Center" 
+                                 Foreground="{ThemeResource BitSynthAccentColorBrush}" />
             </Grid>
 
         </Grid>

@@ -5,8 +5,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -42,6 +44,17 @@ namespace BitSynthPlus
         /// <param name="e">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            int launchWidth = (int)(double)Current.Resources["LargeWidthBreakpoint"];
+            int launchHeight = (int)Current.Resources["AppDefaultHeight"];
+            int minHeight = (int)Current.Resources["AppMinHeight"];
+            int minWidth = (int)Current.Resources["AppMinWidth"];
+
+            // override the minimum height of the app window
+            ApplicationView.GetForCurrentView().SetPreferredMinSize(new Size(minWidth, minHeight));
+            
+            // try to force app to launch at a set height and width
+            ApplicationView.PreferredLaunchViewSize = new Size(launchWidth, launchHeight);
+            ApplicationView.PreferredLaunchWindowingMode = ApplicationViewWindowingMode.PreferredLaunchViewSize;
 
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)

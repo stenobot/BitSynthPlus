@@ -3,7 +3,6 @@ using BitSynthPlus.DataModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Windows.Media.Audio;
 using Windows.Media.Render;
@@ -20,7 +19,15 @@ namespace BitSynthPlus.Services
         static readonly double reverbDecayMinVal = (double)Application.Current.Resources["ReverbDecayMin"];
         static readonly double reverbDensityMinVal = (double)Application.Current.Resources["ReverbDensityMin"];
         static readonly double reverbGainMinVal = (double)Application.Current.Resources["ReverbGainMin"];
-
+        static readonly double reverbWetDryMixDefaultVal = (double)Application.Current.Resources["ReverbWetDryMixDefault"];
+        static readonly int reverbDelayDefaultVal = (int)Application.Current.Resources["ReverbDelayDefault"];
+        static readonly int reverbRearDelayDefaultVal = (int)Application.Current.Resources["ReverbRearDelayDefault"];
+        static readonly double reverbRoomSizeDefaultVal = (double)Application.Current.Resources["ReverbRoomSizeDefault"];
+        static readonly int reverbReflectionsDelayDefaultVal = (int)Application.Current.Resources["ReverbReflectionsDelayDefault"];
+        static readonly int reverbLowEqCutoffDefaultVal = (int)Application.Current.Resources["ReverbLowEqCutoffDefault"];
+        static readonly int reverbLowEqGainDefaultVal = (int)Application.Current.Resources["ReverbLowEqGainDefault"];
+        static readonly int reverbHighEqCutoffDefaultVal = (int)Application.Current.Resources["ReverbHighEqCutoffDefault"];
+        static readonly int reverbHighEqGainDefaultVal = (int)Application.Current.Resources["ReverbHighEqGainDefault"];
 
         private SoundBanksInitializer soundBankInitializer;
 
@@ -47,7 +54,7 @@ namespace BitSynthPlus.Services
         private double _masterVolume;
         private EchoEffectDefinition _echoEffect;
         private ReverbEffectDefinition _reverbEffect;
-
+        
         private double _pOnePlaybackSpeed;
         private double _pTwoPlaybackSpeed;
         private double _wOnePlaybackSpeed;
@@ -121,6 +128,7 @@ namespace BitSynthPlus.Services
                 _reverbEffect = value;
             }
         }
+
 
         public SoundPlayer()
         {
@@ -270,17 +278,6 @@ namespace BitSynthPlus.Services
 
         }
 
-        public void ChangeEchoDelayEffect(double value)
-        {
-            //echoEffect.Delay = value;
-        }
-
-        public void ChangeEchoFeedbackEffect(double value)
-        {
-            double newVal = value * .01;
-            //echoEffect.Feedback = newVal;
-        }
-
 
         public async Task InitializeSounds()
         {
@@ -358,9 +355,15 @@ namespace BitSynthPlus.Services
             _reverbEffect.Density = reverbDensityMinVal;
             _reverbEffect.ReverbGain = reverbGainMinVal;
 
-            _reverbEffect.WetDryMix = 50;
-            _reverbEffect.ReverbDelay = 1;
-            _reverbEffect.RearDelay = 1;
+            _reverbEffect.WetDryMix = reverbWetDryMixDefaultVal;
+            _reverbEffect.ReverbDelay = (byte)reverbDelayDefaultVal;
+            _reverbEffect.RearDelay = (byte)reverbRearDelayDefaultVal;
+            _reverbEffect.RoomSize = reverbRoomSizeDefaultVal;
+            _reverbEffect.ReflectionsDelay = (byte)reverbReflectionsDelayDefaultVal;
+            _reverbEffect.LowEQCutoff = (byte)reverbLowEqCutoffDefaultVal;
+            _reverbEffect.LowEQGain = (byte)reverbLowEqGainDefaultVal;
+            _reverbEffect.HighEQCutoff = (byte)reverbHighEqCutoffDefaultVal;
+            _reverbEffect.HighEQGain = (byte)reverbHighEqGainDefaultVal;
         }
 
         public void EnableEchoEffect(bool enable = true)

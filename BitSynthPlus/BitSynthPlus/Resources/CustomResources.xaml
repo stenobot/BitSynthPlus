@@ -18,6 +18,8 @@
                              Opacity="0.8" />
             <SolidColorBrush x:Key="DarkBackgroundBrush"
                              Color="#FF0C0C0C" />
+            <SolidColorBrush x:Key="DarkAltBackgroundBrush"
+                             Color="#FF1F1F1F" />
             <SolidColorBrush x:Key="BitSynthDisabledBrush"
                              Color="#FF2F2F2F" />
             <LinearGradientBrush x:Key="BackgroundGradientBrush" 
@@ -25,9 +27,6 @@
                 <GradientStop Color="Black" Offset="0.0" />
                 <GradientStop Color="#FF151515" Offset="1.0" />
             </LinearGradientBrush>
-
-
-
         </ResourceDictionary>
 
         <ResourceDictionary x:Key="HighContrast">
@@ -42,6 +41,8 @@
                              Opacity="0.8" />
             <SolidColorBrush x:Key="DarkBackgroundBrush"
                              Color="#FF0C0C0C" />
+            <SolidColorBrush x:Key="DarkAltBackgroundBrush"
+                             Color="#FF1F1F1F" />
             <SolidColorBrush x:Key="BitSynthDisabledBrush"
                              Color="#FF2F2F2F" />
             <LinearGradientBrush x:Key="BackgroundGradientBrush" 
@@ -64,6 +65,8 @@
                              Opacity="0.8" />
             <SolidColorBrush x:Key="DarkBackgroundBrush"
                              Color="#FF0C0C0C" />
+            <SolidColorBrush x:Key="DarkAltBackgroundBrush"
+                             Color="#FF1F1F1F" />
             <SolidColorBrush x:Key="BitSynthDisabledBrush"
                              Color="#FF2F2F2F"/>
             <LinearGradientBrush x:Key="BackgroundGradientBrush" 
@@ -85,29 +88,48 @@
     <x:Double x:Key="ExtraLargeHeightBreakpoint">800</x:Double>
     <x:Double x:Key="MediumWidthBreakpoint">1000</x:Double>
     <x:Double x:Key="LargeWidthBreakpoint">1300</x:Double>
-    <x:Double x:Key="ExtraLargeWidthBreakpoint">1690</x:Double>
+    <x:Double x:Key="ExtraLargeWidthBreakpoint">1680</x:Double>
+    <x:Int32 x:Key="AppDefaultHeight">735</x:Int32>
+    <x:Int32 x:Key="AppMinHeight">460</x:Int32>
+    <x:Int32 x:Key="AppMinWidth">500</x:Int32>
 
     <!-- presets resources -->
     <Thickness x:Key="PresetToggleSmallHeightPadding">3</Thickness>
     <Thickness x:Key="PresetToggleSmallHeightMargin">4</Thickness>
     <x:Double x:Key="PresetToggleSmallHeight">24</x:Double>
 
-
+    <!-- volume values-->
     <x:Double x:Key="MasterVolumeMax">11</x:Double>
     <x:Double x:Key="MasterVolumeDefault">5</x:Double>
+    
+    <!-- echo effect values -->
     <x:Double x:Key="EchoDelayMin">150</x:Double>
     <x:Double x:Key="EchoDelayMax">600</x:Double>
     <x:Double x:Key="EchoFeedbackMin">0</x:Double>
     <x:Double x:Key="EchoFeedbackMax">.9</x:Double>
+
+    <!-- reverb effect values -->
     <x:Double x:Key="ReverbDecayMin">1</x:Double>
     <x:Double x:Key="ReverbDecayMax">50</x:Double>
     <x:Double x:Key="ReverbDensityMin">1</x:Double>
     <x:Double x:Key="ReverbDensityMax">25</x:Double>
     <x:Double x:Key="ReverbGainMin">1</x:Double>
     <x:Double x:Key="ReverbGainMax">15</x:Double>
+    <x:Double x:Key="ReverbWetDryMixDefault">50</x:Double>
+    <x:Int32 x:Key="ReverbDelayDefault">1</x:Int32>
+    <x:Int32 x:Key="ReverbRearDelayDefault">1</x:Int32>
+    <x:Double x:Key="ReverbRoomSizeDefault">.3</x:Double>
+    <x:Int32 x:Key="ReverbReflectionsDelayDefault">4</x:Int32>
+    <x:Int32 x:Key="ReverbLowEqCutoffDefault">3</x:Int32>
+    <x:Int32 x:Key="ReverbLowEqGainDefault">1</x:Int32>
+    <x:Int32 x:Key="ReverbHighEqCutoffDefault">3</x:Int32>
+    <x:Int32 x:Key="ReverbHighEqGainDefault">1</x:Int32>
 
-
-
+    <!-- for ads -->
+    <x:String x:Key="ApplicationId">184ed78c-5035-41bd-8e4a-5304fd869aea</x:String>
+    <x:String x:Key="AdUnitId">337313</x:String>
+    <x:String x:Key="TestApplicationId">3f83fe91-d6be-434d-a0ae-7351c5a997f1</x:String>
+    <x:String x:Key="TestAdUnitId">10865270</x:String>
 
     <!-- key templates -->
     <ControlTemplate x:Key="WhiteKeyTemplate" TargetType="controls:Key">
@@ -225,7 +247,7 @@
     <Style x:Key="PresetToggleSmall"
            TargetType="ToggleButton">
         <Setter Property="Width"
-                Value="34" />
+                Value="55" />
         <Setter Property="Height"
                 Value="34" />
         <Setter Property="Margin"
@@ -251,25 +273,6 @@
                 Value="False"/>
     </Style>
 
-    <Style x:Key="GeneralToggleMedium"
-           TargetType="ToggleButton">
-        <Setter Property="Width"
-                Value="60" />
-        <Setter Property="Padding"
-                Value="3" />
-        <Setter Property="Margin"
-                Value="0,0,0,4" />
-    </Style>
-
-    <Style x:Key="GeneralToggleSmall"
-           TargetType="ToggleButton">
-        <Setter Property="Width"
-                Value="55" />
-        <Setter Property="Padding"
-                Value="3" />
-    </Style>
-
-
     <!-- volume toggle styles -->
 
     <Style x:Key="VolumeToggleLarge" 
@@ -290,9 +293,9 @@
            TargetType="ToggleButton" 
            BasedOn="{StaticResource VolumeToggleBaseStyle}">
         <Setter Property="Width"
-                Value="60" />
+                Value="50" />
         <Setter Property="Height" 
-                Value="60" />
+                Value="70" />
         <Setter Property="Margin"
                 Value="0,0,0,5" />
         <Setter Property="Padding"
@@ -303,11 +306,11 @@
            TargetType="ToggleButton" 
            BasedOn="{StaticResource VolumeToggleBaseStyle}">
         <Setter Property="Width"
-                Value="55" />
+                Value="66" />
         <Setter Property="Height" 
-                Value="55" />
+                Value="66" />
         <Setter Property="Margin"
-                Value="0,0,0,5" />
+                Value="0,0,8,8" />
         <Setter Property="Padding"
                 Value="9" />
     </Style>
@@ -524,7 +527,16 @@
         </Setter>
     </Style>
 
+    <Style x:Key="BitSynthVerticalSliderStyle" TargetType="Slider" BasedOn="{StaticResource BitSynthSliderStyle}">
+        <Setter Property="Height" Value="110" />
+        <Setter Property="Orientation" Value="Vertical" />
+    </Style>
 
+    <Style x:Key="BitSynthHorizontalSliderStyle" TargetType="Slider" BasedOn="{StaticResource BitSynthSliderStyle}">
+        <Setter Property="Height" Value="44" />
+        <Setter Property="Width" Value="135" />
+        <Setter Property="Orientation" Value="Horizontal" />
+    </Style>
 
     <!-- RE-TEMPLATED style for Windows.UI.Xaml.Controls.Slider -->
     <Style x:Key="BitSynthSliderStyle" TargetType="Slider">
@@ -535,9 +547,6 @@
         <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
         <Setter Property="ManipulationMode" Value="None" />
         <Setter Property="UseSystemFocusVisuals" Value="True" />
-        <!-- Height, Orientation Override -->
-        <Setter Property="Height" Value="117" />
-        <Setter Property="Orientation" Value="Vertical" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Slider">
@@ -669,9 +678,10 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="18" />
                                 </Grid.RowDefinitions>
+                                <!-- Override Height to 8 -->
                                 <Rectangle x:Name="HorizontalTrackRect"
                                           Fill="{TemplateBinding Background}"
-                                          Height="{ThemeResource SliderTrackThemeHeight}"
+                                          Height="8"
                                           Grid.Row="1"
                                           Grid.ColumnSpan="3" />
                                 <Rectangle x:Name="HorizontalDecreaseRect"
@@ -684,10 +694,11 @@
                                         VerticalAlignment="Bottom"
                                         Margin="0,0,0,4"
                                         Grid.ColumnSpan="3" />
+                                <!-- Override Height to 24 -->
                                 <TickBar x:Name="HorizontalInlineTickBar"
                                         Visibility="Collapsed"
                                         Fill="{ThemeResource SystemControlBackgroundAltHighBrush}"
-                                        Height="{ThemeResource SliderTrackThemeHeight}"
+                                        Height="24"
                                         Grid.Row="1"
                                         Grid.ColumnSpan="3" />
                                 <TickBar x:Name="BottomTickBar"

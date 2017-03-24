@@ -3,11 +3,13 @@ using BitSynthPlus.DataModel;
 using BitSynthPlus.Services;
 using System;
 using System.Collections.Generic;
+using Windows.ApplicationModel.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Popups;
 
 namespace BitSynthPlus
 {
@@ -25,6 +27,7 @@ namespace BitSynthPlus
     public sealed partial class KeyboardShell : Page
     {
         static readonly double masterVolumeDefaultVal = (double)Application.Current.Resources["MasterVolumeDefault"];
+        private const string removeAdsInAppPurchaseId = "RemoveAds";
 
         private const double pitchOctaveUpValue = 2.0;
         private const double pitchHalfOctaveUpValue = 1.5;
@@ -46,17 +49,23 @@ namespace BitSynthPlus
         private PresetInitializer presetInitializer;
         private List<Preset> Presets;
 
+        LicenseInformation licenseInformation;
+
         SolidColorBrush accentColor = Application.Current.Resources["BitSynthAccentColorBrush"] as SolidColorBrush;
         SolidColorBrush disabledColor = Application.Current.Resources["BitSynthDisabledBrush"] as SolidColorBrush;
 
         public KeyboardShell()
         {
             this.InitializeComponent();
+
+            licenseInformation = CurrentAppSimulator.LicenseInformation;
         }
 
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            CheckShowAds();
+
             VisualStateManager.GoToState(this, "Loading", true);
 
             soundPlayer = new SoundPlayer();
@@ -230,6 +239,49 @@ namespace BitSynthPlus
             reverbDecaySlider.Value = preset.ReverbDecayValue;
             reverbDensitySlider.Value = preset.ReverbDensityValue;
             reverbGainSlider.Value = preset.ReverbGainValue;
+        }
+
+
+        /// <summary>
+        /// Check license state for whether or not the user has purchased ad removal 
+        /// and go to the appropriate visual state
+        /// </summary>
+        private void CheckShowAds()
+        {
+            if (licenseInformation.ProductLicenses["RemoveAds"].IsActive)
+                VisualStateManager.GoToState(this, "HideAds", true);
+            else
+                VisualStateManager.GoToState(this, "ShowAds", true);
+        }
+
+
+        /// <summary>
+        /// Try to buy the ad removal feature
+        /// </summary>
+        async void BuyRemoveAds()
+        {
+            if (!licenseInformation.ProductLicenses[removeAdsInAppPurchaseId].IsActive)
+            {
+                try
+                {
+                    // user doesn't own ad removal feature, so show purchase dialog
+                    await CurrentAppSimulator.RequestProductPurchaseAsync(removeAdsInAppPurchaseId, false);
+
+                    // check license state again to see if purchase was successful, and go to visual state
+                    CheckShowAds();
+                }
+                catch (Exception e)
+                {
+                    // in-app purchase was not completed because an error occurred
+                    MessageDialog errorDialog = new MessageDialog("Sorry, something went wrong with this purchase. Error details: " + e.Message);
+                    await errorDialog.ShowAsync();
+                }
+            }
+            else
+            {
+                // user already owns this feature
+                CheckShowAds();
+            }
         }
 
         #endregion
@@ -486,6 +538,11 @@ namespace BitSynthPlus
                 echoFeedbackIcon.IsEnabled = false;
                 soundPlayer.EnableEchoEffect(false);
             };
+        }
+
+        private void RemoveAdsHyperlinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            BuyRemoveAds();
         }
     }
 
