@@ -58,7 +58,15 @@ namespace BitSynthPlus
         {
             this.InitializeComponent();
 
-            licenseInformation = CurrentAppSimulator.LicenseInformation;
+            try
+            {
+                // use CurrentAppSimulator.LicenseInformation when debugging
+                licenseInformation = CurrentApp.LicenseInformation;
+            }
+            catch
+            {
+                // couldn't initialize license info for in-app purchases
+            }         
         }
 
 
@@ -248,6 +256,9 @@ namespace BitSynthPlus
         /// </summary>
         private void CheckShowAds()
         {
+            if (licenseInformation == null)
+                return;
+
             if (licenseInformation.ProductLicenses["RemoveAds"].IsActive)
                 VisualStateManager.GoToState(this, "HideAds", true);
             else
@@ -260,12 +271,16 @@ namespace BitSynthPlus
         /// </summary>
         async void BuyRemoveAds()
         {
+            if (licenseInformation == null)
+                return;
+
             if (!licenseInformation.ProductLicenses[removeAdsInAppPurchaseId].IsActive)
             {
                 try
                 {
                     // user doesn't own ad removal feature, so show purchase dialog
-                    await CurrentAppSimulator.RequestProductPurchaseAsync(removeAdsInAppPurchaseId, false);
+                    // use CurrentAppSimulator.LicenseInformation when debugging
+                    await CurrentApp.RequestProductPurchaseAsync(removeAdsInAppPurchaseId, false);
 
                     // check license state again to see if purchase was successful, and go to visual state
                     CheckShowAds();

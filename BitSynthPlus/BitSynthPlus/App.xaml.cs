@@ -90,8 +90,37 @@ namespace BitSynthPlus
                 // parameter
                 rootFrame.Navigate(typeof(KeyboardShell), e.Arguments);
             }
+
+            ApplicationViewTitleBar titleBar = ApplicationView.GetForCurrentView().TitleBar;
+
+            // get brushes
+            SolidColorBrush bkgColor = Current.Resources["DarkAltBackgroundBrush"] as SolidColorBrush;
+            SolidColorBrush btnHoverColor = Current.Resources["BitSynthAccentColorBrush"] as SolidColorBrush;
+            SolidColorBrush btnPressedColor = Current.Resources["BitSynthAccentColorBrush"] as SolidColorBrush;
+
+            // override colors!
+            titleBar.BackgroundColor = bkgColor.Color;
+            titleBar.ForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonBackgroundColor = bkgColor.Color;
+            titleBar.ButtonForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonHoverBackgroundColor = btnHoverColor.Color;
+            titleBar.ButtonHoverForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonPressedBackgroundColor = btnPressedColor.Color;
+            titleBar.ButtonPressedForegroundColor = Windows.UI.Colors.White;
+            titleBar.InactiveBackgroundColor = bkgColor.Color;
+            titleBar.InactiveForegroundColor = Windows.UI.Colors.White;
+            titleBar.ButtonInactiveBackgroundColor = bkgColor.Color;
+            titleBar.ButtonInactiveForegroundColor = Windows.UI.Colors.White;
+
+            // set the frame background to match our titlebar
+            rootFrame.Background = bkgColor;
+
+
             // Ensure the current window is active
             Window.Current.Activate();
+
+
+
         }
 
         /// <summary>
