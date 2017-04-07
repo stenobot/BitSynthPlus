@@ -33,7 +33,6 @@ namespace BitSynthPlus.Services
 
         // main audio graph and output node
         private AudioGraph graph;
-
         private AudioDeviceOutputNode deviceOutputNode;
 
         // dictionary of file-based input nodes

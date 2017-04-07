@@ -127,7 +127,7 @@ namespace BitSynthPlus.Services
                 },
                 true,
                 false,
-                (int)echoDelayMinVal + 400,
+                (int)echoDelayMinVal + 250,
                 echoFeedbackMinVal + 0.1,
                 (int)reverbDecayMinVal,
                 (int)reverbDensityMinVal,

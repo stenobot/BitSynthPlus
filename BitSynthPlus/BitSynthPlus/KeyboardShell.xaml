@@ -30,17 +30,21 @@
             <VisualStateGroup x:Name="WidthStates">
 
                 <!-- EXTRA LARGE WIDTH -->
-                <!--<VisualState x:Name="ExtraLargeWidth">
+                <VisualState x:Name="ExtraLargeWidth">
                     <VisualState.StateTriggers>
-                        --><!-- KEYS - show 24 white keys --><!--
                         <AdaptiveTrigger MinWindowWidth="{ThemeResource ExtraLargeWidthBreakpoint}" />
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
-                        --><!-- EFFECTS --><!--
+                        <!-- KEYS - show all white keys -->
+                        <!-- EFFECTS -->
                         <Setter Target="effectsGrid.(RelativePanel.RightOf)" Value="soundBanksGrid" />
                         <Setter Target="reverbEffectsPanel.(RelativePanel.RightOf)" Value="echoEffectsPanel" />
+                        <Setter Target="effectsGrid.Margin" Value="150,25,0,0" />
+                        <Setter Target="soundBanksGrid.Margin" Value="0,25,0,0" />
+                        <!-- BKG IMAGE -->
+                        <Setter Target="controlsBackgroundImage.Width" Value="1600" />
                     </VisualState.Setters>
-                </VisualState>-->
+                </VisualState>
 
 
                 <!-- LARGE WIDTH -->
@@ -50,11 +54,11 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!-- KEYS - show 18 white keys -->
-                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
                         <!-- PRESETS -->
                         <Setter Target="presetsGrid.Width" Value="300" />
+                        <Setter Target="presetsGrid.Margin" Value="0,4,0,0" />
                         <!-- BKG IMAGE -->
                         <Setter Target="controlsBackgroundImage.Width" Value="1260" />
                         <!-- EFFECTS -->
@@ -70,12 +74,12 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!-- KEYS - show 14 white keys -->
-                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveSeven.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveEight.Visibility" Value="Collapsed" />
                         <!-- PRESETS -->
                         <Setter Target="presetsGrid.Width" Value="200" />
+                        <Setter Target="presetsGrid.Margin" Value="0,4,0,0" />
                         <Setter Target="presetsTitleIcon.Margin" Value="4,0,0,10" />
                         <!-- BKG IMAGE -->
                         <Setter Target="controlsBackgroundImage.Width" Value="980" />
@@ -142,7 +146,6 @@
                     </VisualState.StateTriggers>
                     <VisualState.Setters>
                         <!-- KEYS - show 7 white keys -->
-                        <Setter Target="halfOctaveOne.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveTwo.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveThree.Visibility" Value="Collapsed" />
                         <Setter Target="halfOctaveSix.Visibility" Value="Collapsed" />
@@ -273,7 +276,7 @@
 
                     <!-- PRESET CONTROLS -->
                     <Grid x:Name="presetsGrid" 
-                          Margin="0,4,0,0" 
+                          Margin="50,4,0,0" 
                           Width="450"
                           Background="Transparent">
 
@@ -657,12 +660,6 @@
 
             <Grid x:Name="keyboardGrid" Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
-
-                    <Grid x:Name="halfOctaveOne">
-                        <controls:Key x:Name="key1E" Template="{ThemeResource WhiteKeyTemplate}" 
-                                      Style="{ThemeResource LargeWhiteKeyStyle}"
-                                      IsPressedPropertyChanged="Key_IsPressedPropertyChanged" />
-                    </Grid>
 
                     <Grid x:Name="halfOctaveTwo">
                         <StackPanel Orientation="Horizontal">
